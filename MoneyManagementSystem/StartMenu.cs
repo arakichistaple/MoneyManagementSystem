@@ -12,6 +12,8 @@ namespace MoneyManagementSystem
 {
     public partial class StartMenu : Form
     {
+        Common com = new Common();
+
         public StartMenu()
         {
             InitializeComponent();
@@ -19,8 +21,16 @@ namespace MoneyManagementSystem
 
         private void Keisuke_Button_Click(object sender, EventArgs e)
         {
-            KeisukeAccountBook keisuke_accont_book = new KeisukeAccountBook();
+            AccountBook keisuke_accont_book = new AccountBook();
+            keisuke_accont_book.display_status = (int)Common.Display_Status_LIST.DISP_KEISUKE;
             keisuke_accont_book.Show();
+        }
+
+        private void Miki_Button_Click(object sender, EventArgs e)
+        {
+            AccountBook miki_account_book = new AccountBook();
+            miki_account_book.display_status = (int)Common.Display_Status_LIST.DISP_MIKI;
+            miki_account_book.Show();
         }
     }
 }

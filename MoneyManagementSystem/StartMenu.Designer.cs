@@ -31,6 +31,7 @@
             this.Keisuke_Button = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Miki_Button = new System.Windows.Forms.Button();
+            this.PayOff_Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Keisuke_Button
@@ -63,12 +64,24 @@
             this.Miki_Button.TabIndex = 3;
             this.Miki_Button.Text = "MIKI\'s\r\n";
             this.Miki_Button.UseVisualStyleBackColor = true;
+            this.Miki_Button.Click += new System.EventHandler(this.Miki_Button_Click);
+            // 
+            // PayOff_Button
+            // 
+            this.PayOff_Button.Font = new System.Drawing.Font("UD デジタル 教科書体 N-B", 25.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayOff_Button.Location = new System.Drawing.Point(104, 484);
+            this.PayOff_Button.Name = "PayOff_Button";
+            this.PayOff_Button.Size = new System.Drawing.Size(768, 94);
+            this.PayOff_Button.TabIndex = 4;
+            this.PayOff_Button.Text = "精算";
+            this.PayOff_Button.UseVisualStyleBackColor = true;
             // 
             // StartMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(969, 506);
+            this.ClientSize = new System.Drawing.Size(969, 622);
+            this.Controls.Add(this.PayOff_Button);
             this.Controls.Add(this.Miki_Button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Keisuke_Button);
@@ -84,6 +97,7 @@
         private System.Windows.Forms.Button Keisuke_Button;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Miki_Button;
+        private System.Windows.Forms.Button PayOff_Button;
     }
 }
 

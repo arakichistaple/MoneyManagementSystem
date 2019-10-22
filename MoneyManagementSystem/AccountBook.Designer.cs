@@ -1,6 +1,6 @@
 ﻿namespace MoneyManagementSystem
 {
-    partial class KeisukeAccountBook
+    partial class AccountBook
     {
         /// <summary>
         /// Required designer variable.
@@ -147,6 +147,7 @@
             this.Income_Button.TabIndex = 3;
             this.Income_Button.Text = "収入";
             this.Income_Button.UseVisualStyleBackColor = true;
+            this.Income_Button.Click += new System.EventHandler(this.Income_Button_Click);
             // 
             // Spending_Button
             // 
@@ -158,6 +159,7 @@
             this.Spending_Button.TabIndex = 4;
             this.Spending_Button.Text = "支出";
             this.Spending_Button.UseVisualStyleBackColor = true;
+            this.Spending_Button.Click += new System.EventHandler(this.Spending_Button_Click);
             // 
             // panel2
             // 

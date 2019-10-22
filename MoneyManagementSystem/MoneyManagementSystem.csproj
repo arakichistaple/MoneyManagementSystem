@@ -71,19 +71,19 @@
     <Compile Include="StartMenu.Designer.cs">
       <DependentUpon>StartMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeisukeAccountBook.cs">
+    <Compile Include="AccountBook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KeisukeAccountBook.Designer.cs">
-      <DependentUpon>KeisukeAccountBook.cs</DependentUpon>
+    <Compile Include="AccountBook.Designer.cs">
+      <DependentUpon>AccountBook.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="StartMenu.resx">
       <DependentUpon>StartMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="KeisukeAccountBook.resx">
-      <DependentUpon>KeisukeAccountBook.cs</DependentUpon>
+    <EmbeddedResource Include="AccountBook.resx">
+      <DependentUpon>AccountBook.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -94,6 +94,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

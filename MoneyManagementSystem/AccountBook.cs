@@ -11,14 +11,19 @@ using System.Data.SqlClient;
 
 namespace MoneyManagementSystem
 {
-    public partial class KeisukeAccountBook : Form
+    public partial class AccountBook : Form
     {
         Common com = new Common();
-        int display_status = 1;
 
-        public KeisukeAccountBook()
+        
+
+        public int display_status { get; set; }
+        public int payment_status { get; set; }
+
+        public AccountBook()
         {
             InitializeComponent();
+            payment_status = (int)Common.Amount_Status_List.INCOME;
         }
 
         private void KeisukeAccountBook_Load(object sender, EventArgs e)
@@ -37,9 +42,11 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "SELECT UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share ";
                 sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
-                sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId";
-
+                sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@user", display_status));
+
                 SqlDataReader sdr = cmd.ExecuteReader();
 
                 int row_cnt = 1;
@@ -70,6 +77,14 @@ namespace MoneyManagementSystem
             dataGridView1.Rows.Add(user_name, major_name, medium_name, detail, date, amount, share);
         }
 
+        private void Spending_Button_Click(object sender, EventArgs e)
+        {
+            payment_status =(int)Common.Amount_Status_List.SPENDING;
+        }
 
+        private void Income_Button_Click(object sender, EventArgs e)
+        {
+            payment_status = (int)Common.Amount_Status_List.INCOME;
+        }
     }
 }

@@ -29,12 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.circularButton2 = new MoneyManagementSystem.CircularButton();
-            this.circularButton1 = new MoneyManagementSystem.CircularButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +47,8 @@
             this.IncomeCost = new System.Windows.Forms.Label();
             this.Header_Income_LB = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Input_Button = new MoneyManagementSystem.CircularButton();
+            this.circularButton1 = new MoneyManagementSystem.CircularButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -59,39 +57,19 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel1.Controls.Add(this.circularButton2);
+            this.panel1.Controls.Add(this.Input_Button);
             this.panel1.Controls.Add(this.circularButton1);
             this.panel1.Location = new System.Drawing.Point(12, 619);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1501, 140);
             this.panel1.TabIndex = 1;
             // 
-            // circularButton2
-            // 
-            this.circularButton2.Location = new System.Drawing.Point(614, 26);
-            this.circularButton2.Name = "circularButton2";
-            this.circularButton2.Size = new System.Drawing.Size(90, 91);
-            this.circularButton2.TabIndex = 1;
-            this.circularButton2.Text = "入力";
-            this.circularButton2.UseVisualStyleBackColor = true;
-            // 
-            // circularButton1
-            // 
-            this.circularButton1.Location = new System.Drawing.Point(306, 26);
-            this.circularButton1.Name = "circularButton1";
-            this.circularButton1.Size = new System.Drawing.Size(90, 91);
-            this.circularButton1.TabIndex = 0;
-            this.circularButton1.Text = "Home";
-            this.circularButton1.UseVisualStyleBackColor = true;
-            // 
             // dataGridView1
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
             this.Column2,
-            this.Column3,
             this.Column4,
             this.Column5,
             this.Column6,
@@ -102,20 +80,10 @@
             this.dataGridView1.Size = new System.Drawing.Size(811, 404);
             this.dataGridView1.TabIndex = 2;
             // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "入力者";
-            this.Column1.Name = "Column1";
-            // 
             // Column2
             // 
-            this.Column2.HeaderText = "大項目";
+            this.Column2.HeaderText = "項目";
             this.Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "中項目";
-            this.Column3.Name = "Column3";
             // 
             // Column4
             // 
@@ -258,7 +226,26 @@
             this.comboBox1.TabIndex = 6;
             this.comboBox1.Text = "全体";
             // 
-            // KeisukeAccountBook
+            // Input_Button
+            // 
+            this.Input_Button.Location = new System.Drawing.Point(614, 26);
+            this.Input_Button.Name = "Input_Button";
+            this.Input_Button.Size = new System.Drawing.Size(90, 91);
+            this.Input_Button.TabIndex = 1;
+            this.Input_Button.Text = "入力";
+            this.Input_Button.UseVisualStyleBackColor = true;
+            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
+            // 
+            // circularButton1
+            // 
+            this.circularButton1.Location = new System.Drawing.Point(306, 26);
+            this.circularButton1.Name = "circularButton1";
+            this.circularButton1.Size = new System.Drawing.Size(90, 91);
+            this.circularButton1.TabIndex = 0;
+            this.circularButton1.Text = "Home";
+            this.circularButton1.UseVisualStyleBackColor = true;
+            // 
+            // AccountBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -269,9 +256,9 @@
             this.Controls.Add(this.Income_Button);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
-            this.Name = "KeisukeAccountBook";
+            this.Name = "AccountBook";
             this.Text = "KeisukeAccountBook";
-            this.Load += new System.EventHandler(this.KeisukeAccountBook_Load);
+            this.Load += new System.EventHandler(this.AccountBook_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -285,7 +272,7 @@
 
         private CircularButton circularButton1;
         private System.Windows.Forms.Panel panel1;
-        private CircularButton circularButton2;
+        private CircularButton Input_Button;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button Income_Button;
         private System.Windows.Forms.Button Spending_Button;
@@ -299,9 +286,7 @@
         private System.Windows.Forms.Label IncomeCost;
         private System.Windows.Forms.Label Header_Income_LB;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;

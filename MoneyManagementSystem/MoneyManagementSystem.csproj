@@ -65,6 +65,24 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common.cs" />
+    <Compile Include="Input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input.Designer.cs">
+      <DependentUpon>Input.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MajorItemSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MajorItemSelect.Designer.cs">
+      <DependentUpon>MajorItemSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediumItemSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediumItemSelect.Designer.cs">
+      <DependentUpon>MediumItemSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="StartMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +97,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Input.resx">
+      <DependentUpon>Input.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MajorItemSelect.resx">
+      <DependentUpon>MajorItemSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediumItemSelect.resx">
+      <DependentUpon>MediumItemSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StartMenu.resx">
       <DependentUpon>StartMenu.cs</DependentUpon>
     </EmbeddedResource>

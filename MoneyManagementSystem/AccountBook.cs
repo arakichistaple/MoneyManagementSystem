@@ -15,18 +15,13 @@ namespace MoneyManagementSystem
     {
         Common com = new Common();
 
-        
-
-        public int display_status { get; set; }
-        public int payment_status { get; set; }
-
         public AccountBook()
         {
             InitializeComponent();
-            payment_status = (int)Common.Amount_Status_List.INCOME;
+            Common.payment_status = (int)Common.Amount_Status_List.SPENDING;
         }
 
-        private void KeisukeAccountBook_Load(object sender, EventArgs e)
+        private void AccountBook_Load(object sender, EventArgs e)
         {
             initPaymentFigure();
         }
@@ -45,11 +40,10 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
                 sqlstr = sqlstr + "WHERE MD.UserId = @user";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
-                cmd.Parameters.Add(new SqlParameter("@user", display_status));
+                cmd.Parameters.Add(new SqlParameter("@user", Common.display_status));
 
                 SqlDataReader sdr = cmd.ExecuteReader();
 
-                int row_cnt = 1;
                 while (sdr.Read() == true)
                 {
                     string user = (string)sdr["UserName"];
@@ -60,7 +54,7 @@ namespace MoneyManagementSystem
                     int amount = (int)sdr["Amounts"];
                     bool share = (bool)sdr["Share"];
 
-                    addData(row_cnt, user, major_name, medium_name, detail, date, amount, share);
+                    addData(major_name, detail, date, amount, share);
                     //string user = (string)sdr["model"];
 
                 }
@@ -72,19 +66,32 @@ namespace MoneyManagementSystem
             }
         }
 
-        private void addData(int row_num, string user_name, string major_name, string medium_name, string detail, DateTime date, int amount, bool share)
+        private void addData(string major_name, string detail, DateTime date, int amount, bool share)
         {
-            dataGridView1.Rows.Add(user_name, major_name, medium_name, detail, date, amount, share);
+            dataGridView1.Rows.Add(major_name, detail, date, amount, share);
         }
 
         private void Spending_Button_Click(object sender, EventArgs e)
         {
-            payment_status =(int)Common.Amount_Status_List.SPENDING;
+            Common.payment_status =(int)Common.Amount_Status_List.SPENDING;
         }
 
         private void Income_Button_Click(object sender, EventArgs e)
         {
-            payment_status = (int)Common.Amount_Status_List.INCOME;
+            Common.payment_status = (int)Common.Amount_Status_List.INCOME;
         }
+
+        private void gridUpdate()
+        {
+
+        }
+
+        private void Input_Button_Click(object sender, EventArgs e)
+        {
+            Input input_form = new Input();
+            input_form.Show();
+        }
+
+        
     }
 }

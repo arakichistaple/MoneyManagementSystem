@@ -23,9 +23,15 @@ namespace MoneyManagementSystem
 
         private void AccountBook_Load(object sender, EventArgs e)
         {
+            clearPaymentFigure();
             initPaymentFigure();
             setFormName(Common.display_status);
             yearMonth_TB.Text = getTodaysYearMonth();
+        }
+
+        private void clearPaymentFigure()
+        {
+            dataGridView1.Rows.Clear();
         }
 
         private void initPaymentFigure()
@@ -70,7 +76,7 @@ namespace MoneyManagementSystem
 
         private void addData(string major_name, string detail, DateTime date, int amount, bool share)
         {
-            dataGridView1.Rows.Add(major_name, detail, date, amount, share);
+            dataGridView1.Rows.Add(major_name, detail, date.ToString("yyyy年MM月dd日"), amount, share);
         }
 
         private void Spending_Button_Click(object sender, EventArgs e)
@@ -85,7 +91,10 @@ namespace MoneyManagementSystem
 
         private void gridUpdate()
         {
-
+            this.SuspendLayout();
+            clearPaymentFigure();
+            initPaymentFigure();
+            this.ResumeLayout();
         }
 
         private void Input_Button_Click(object sender, EventArgs e)
@@ -94,6 +103,7 @@ namespace MoneyManagementSystem
             this.Hide();
             input_form.ShowDialog();
             this.Show();
+            gridUpdate();
         }
 
         private void setFormName(int user_id)

@@ -24,6 +24,8 @@ namespace MoneyManagementSystem
         private void AccountBook_Load(object sender, EventArgs e)
         {
             initPaymentFigure();
+            setFormName(Common.display_status);
+            yearMonth_TB.Text = getTodaysYearMonth();
         }
 
         private void initPaymentFigure()
@@ -89,9 +91,90 @@ namespace MoneyManagementSystem
         private void Input_Button_Click(object sender, EventArgs e)
         {
             Input input_form = new Input();
-            input_form.Show();
+            this.Hide();
+            input_form.ShowDialog();
+            this.Show();
         }
 
-        
+        private void setFormName(int user_id)
+        {
+            string name = "";
+            string accountBookString = "の家計簿";
+            
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT UserName ";
+                sqlstr = sqlstr + "FROM [dbo].[User] ";
+                sqlstr = sqlstr + "WHERE UserId = @user_id";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@user_id", user_id));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                while (sdr.Read() == true)
+                {
+                    name = (string)sdr["UserName"];
+                }
+                con.Close();
+
+                this.Text = name + accountBookString;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void home_Btn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private  string getTodaysYearMonth()
+        {
+            DateTime dt = DateTime.Now;
+
+            string result = dt.ToString("yyyy年MM月");
+
+            return result;
+        }
+
+        private void prevMonthBtn_Click(object sender, EventArgs e)
+        {
+            setPrevMonthText();
+        }
+
+        private void setPrevMonthText()
+        {
+            DateTime now_year_month = getNowYearMonth();
+            DateTime prev_year_month = now_year_month.AddMonths(-1);
+
+            yearMonth_TB.Text = prev_year_month.ToString("yyyy年MM月");
+        }
+
+        private void nextMonthBtn_Click(object sender, EventArgs e)
+        {
+            setNextMonthText();
+        }
+
+        private void setNextMonthText()
+        {
+            DateTime now_year_month = getNowYearMonth();
+            DateTime next_year_month = now_year_month.AddMonths(1);
+
+            yearMonth_TB.Text = next_year_month.ToString("yyyy年MM月");
+        }
+
+        private DateTime getNowYearMonth()
+        {
+            string format = "yyyy年MM月";
+            string now_year_month_string = yearMonth_TB.Text;
+
+            return DateTime.ParseExact(now_year_month_string, format, null);
+        }
     }
 }

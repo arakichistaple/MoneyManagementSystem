@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountBook));
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,8 +48,11 @@
             this.IncomeCost = new System.Windows.Forms.Label();
             this.Header_Income_LB = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.yearMonth_TB = new System.Windows.Forms.TextBox();
+            this.nextMonthBtn = new System.Windows.Forms.Button();
+            this.prevMonthBtn = new System.Windows.Forms.Button();
             this.Input_Button = new MoneyManagementSystem.CircularButton();
-            this.circularButton1 = new MoneyManagementSystem.CircularButton();
+            this.home_Btn = new MoneyManagementSystem.CircularButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -58,7 +62,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panel1.Controls.Add(this.Input_Button);
-            this.panel1.Controls.Add(this.circularButton1);
+            this.panel1.Controls.Add(this.home_Btn);
             this.panel1.Location = new System.Drawing.Point(12, 619);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1501, 140);
@@ -109,7 +113,7 @@
             // 
             this.Income_Button.AutoSize = true;
             this.Income_Button.Font = new System.Drawing.Font("MS UI Gothic", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Income_Button.Location = new System.Drawing.Point(352, 117);
+            this.Income_Button.Location = new System.Drawing.Point(360, 192);
             this.Income_Button.Name = "Income_Button";
             this.Income_Button.Size = new System.Drawing.Size(75, 34);
             this.Income_Button.TabIndex = 3;
@@ -121,7 +125,7 @@
             // 
             this.Spending_Button.AutoSize = true;
             this.Spending_Button.Font = new System.Drawing.Font("MS UI Gothic", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Spending_Button.Location = new System.Drawing.Point(245, 117);
+            this.Spending_Button.Location = new System.Drawing.Point(251, 192);
             this.Spending_Button.Name = "Spending_Button";
             this.Spending_Button.Size = new System.Drawing.Size(75, 34);
             this.Spending_Button.TabIndex = 4;
@@ -226,9 +230,37 @@
             this.comboBox1.TabIndex = 6;
             this.comboBox1.Text = "全体";
             // 
+            // yearMonth_TB
+            // 
+            this.yearMonth_TB.Font = new System.Drawing.Font("ＭＳ ゴシック", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.yearMonth_TB.Location = new System.Drawing.Point(251, 122);
+            this.yearMonth_TB.Name = "yearMonth_TB";
+            this.yearMonth_TB.Size = new System.Drawing.Size(184, 37);
+            this.yearMonth_TB.TabIndex = 7;
+            this.yearMonth_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // nextMonthBtn
+            // 
+            this.nextMonthBtn.Image = global::MoneyManagementSystem.Properties.Resources.RightArrow_mini_;
+            this.nextMonthBtn.Location = new System.Drawing.Point(441, 121);
+            this.nextMonthBtn.Name = "nextMonthBtn";
+            this.nextMonthBtn.Size = new System.Drawing.Size(48, 38);
+            this.nextMonthBtn.TabIndex = 0;
+            this.nextMonthBtn.Click += new System.EventHandler(this.nextMonthBtn_Click);
+            // 
+            // prevMonthBtn
+            // 
+            this.prevMonthBtn.Image = ((System.Drawing.Image)(resources.GetObject("prevMonthBtn.Image")));
+            this.prevMonthBtn.Location = new System.Drawing.Point(196, 121);
+            this.prevMonthBtn.Name = "prevMonthBtn";
+            this.prevMonthBtn.Size = new System.Drawing.Size(49, 38);
+            this.prevMonthBtn.TabIndex = 8;
+            this.prevMonthBtn.UseVisualStyleBackColor = true;
+            this.prevMonthBtn.Click += new System.EventHandler(this.prevMonthBtn_Click);
+            // 
             // Input_Button
             // 
-            this.Input_Button.Location = new System.Drawing.Point(614, 26);
+            this.Input_Button.Location = new System.Drawing.Point(690, 26);
             this.Input_Button.Name = "Input_Button";
             this.Input_Button.Size = new System.Drawing.Size(90, 91);
             this.Input_Button.TabIndex = 1;
@@ -236,20 +268,24 @@
             this.Input_Button.UseVisualStyleBackColor = true;
             this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
             // 
-            // circularButton1
+            // home_Btn
             // 
-            this.circularButton1.Location = new System.Drawing.Point(306, 26);
-            this.circularButton1.Name = "circularButton1";
-            this.circularButton1.Size = new System.Drawing.Size(90, 91);
-            this.circularButton1.TabIndex = 0;
-            this.circularButton1.Text = "Home";
-            this.circularButton1.UseVisualStyleBackColor = true;
+            this.home_Btn.Location = new System.Drawing.Point(88, 26);
+            this.home_Btn.Name = "home_Btn";
+            this.home_Btn.Size = new System.Drawing.Size(90, 91);
+            this.home_Btn.TabIndex = 0;
+            this.home_Btn.Text = "Home";
+            this.home_Btn.UseVisualStyleBackColor = true;
+            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
             // 
             // AccountBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1525, 771);
+            this.Controls.Add(this.prevMonthBtn);
+            this.Controls.Add(this.nextMonthBtn);
+            this.Controls.Add(this.yearMonth_TB);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Spending_Button);
@@ -257,7 +293,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
             this.Name = "AccountBook";
-            this.Text = "KeisukeAccountBook";
+            this.Text = "AccountBook";
             this.Load += new System.EventHandler(this.AccountBook_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -270,7 +306,7 @@
 
         #endregion
 
-        private CircularButton circularButton1;
+        private CircularButton home_Btn;
         private System.Windows.Forms.Panel panel1;
         private CircularButton Input_Button;
         private System.Windows.Forms.DataGridView dataGridView1;
@@ -291,5 +327,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.TextBox yearMonth_TB;
+        private System.Windows.Forms.Button nextMonthBtn;
+        private System.Windows.Forms.Button prevMonthBtn;
     }
 }

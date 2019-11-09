@@ -87,44 +87,60 @@ namespace MoneyManagementSystem
             string item_name = btn.Text;
             int item_id = 0;
 
-            try
-            {
-                SqlConnection con = new SqlConnection(com.CON_STR);
-                con.Open();
-
-                string sqlstr = "";
-                sqlstr = sqlstr + "SELECT ItemId FROM MajorItem WHERE ItemName = @item_name";
-                SqlCommand cmd = new SqlCommand(sqlstr, con); ;
-                cmd.Parameters.Add(new SqlParameter("@item_name", item_name));
-
-                SqlDataReader sdr = cmd.ExecuteReader();
-
-                if (sdr.HasRows == true)
+            
+                try
                 {
-                    sdr.Read();
-                    item_id = (int)sdr["ItemId"];
+                    SqlConnection con = new SqlConnection(com.CON_STR);
+                    con.Open();
+
+                    string sqlstr = "";
+                    sqlstr = sqlstr + "SELECT ItemId FROM MajorItem WHERE ItemName = @item_name";
+                    SqlCommand cmd = new SqlCommand(sqlstr, con); ;
+                    cmd.Parameters.Add(new SqlParameter("@item_name", item_name));
+
+                    SqlDataReader sdr = cmd.ExecuteReader();
+
+                    if (sdr.HasRows == true)
+                    {
+                        sdr.Read();
+                        item_id = (int)sdr["ItemId"];
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("選択された大項目と関連する中項目が存在しません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
                 }
 
-                else
-                {
-                    MessageBox.Show("選択された大項目と関連する中項目が存在しません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            Input.major_item_id = item_id;
 
-                con.Close();
-            }
-            catch (Exception ex)
+            if (Common.payment_status == (int)Common.Amount_Status_List.SPENDING)
             {
-                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                MediumItemSelect MediumItemSelectForm = new MediumItemSelect();
+                
+                this.Hide();
+                MediumItemSelectForm.ShowDialog();
+            }
+            else if(Common.payment_status == (int)Common.Amount_Status_List.INCOME || item_id == 29)
+            {
+                Input.medium_item_id = 0;
+                Input.item_name = item_name;
 
             }
+            else
+            {
+                MessageBox.Show("大項目選択中にエラーが発生しました。\n管理者に確認願います。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            MediumItemSelect MediumItemSelectForm = new MediumItemSelect();
-            MediumItemSelectForm.major_item_id = item_id;
-            this.Hide();
-            MediumItemSelectForm.ShowDialog();
             this.Close();
-
         }
     }
 }

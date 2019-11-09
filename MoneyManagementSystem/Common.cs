@@ -24,9 +24,6 @@ namespace MoneyManagementSystem
             DISP_MIKI = 2
         }
 
-        public void iii()
-        {
-            ;
-        }
+        
     }
 }

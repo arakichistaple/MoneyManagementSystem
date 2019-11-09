@@ -15,7 +15,6 @@ namespace MoneyManagementSystem
     {
         private Button[] buttons;
         Common com = new Common();
-        public int major_item_id = 0;
 
         public MediumItemSelect()
         {
@@ -34,7 +33,7 @@ namespace MoneyManagementSystem
                 string sqlstr = "";
                 sqlstr = sqlstr + "SELECT * FROM MediumItem WHERE MajorItemId = @major_item_id";
                 SqlCommand cmd = new SqlCommand(sqlstr, con); ;
-                cmd.Parameters.Add(new SqlParameter("@major_item_id", major_item_id));
+                cmd.Parameters.Add(new SqlParameter("@major_item_id", Input.major_item_id));
 
                 SqlDataReader sdr = cmd.ExecuteReader();
 
@@ -82,6 +81,40 @@ namespace MoneyManagementSystem
             Button btn = (Button)sender;
             string item_name = btn.Text;
             Input.item_name = item_name;
+            int item_id = 0;
+
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT ItemId FROM MediumItem WHERE ItemName = @item_name";
+                SqlCommand cmd = new SqlCommand(sqlstr, con); ;
+                cmd.Parameters.Add(new SqlParameter("@item_name", item_name));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                if (sdr.HasRows == true)
+                {
+                    sdr.Read();
+                    item_id = (int)sdr["ItemId"];
+                }
+
+                else
+                {
+                    MessageBox.Show("選択された中項目が存在しません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+            Input.medium_item_id = item_id;
 
             this.Close();
         }

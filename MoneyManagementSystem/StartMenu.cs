@@ -23,14 +23,18 @@ namespace MoneyManagementSystem
         {
             AccountBook keisuke_accont_book = new AccountBook();
             Common.display_status = (int)Common.Display_Status_LIST.DISP_KEISUKE;
-            keisuke_accont_book.Show();
+            this.Hide();
+            keisuke_accont_book.ShowDialog();
+            this.Show();
         }
 
         private void Miki_Button_Click(object sender, EventArgs e)
         {
             AccountBook miki_account_book = new AccountBook();
             Common.display_status = (int)Common.Display_Status_LIST.DISP_MIKI;
-            miki_account_book.Show();
+            this.Hide();
+            miki_account_book.ShowDialog();
+            this.Show();
         }
     }
 }

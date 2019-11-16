@@ -24,7 +24,7 @@ namespace MoneyManagementSystem
         private void AccountBook_Load(object sender, EventArgs e)
         {
             clearPaymentFigure();
-            initPaymentFigure();
+            updatePaymentFigure();
             setFormName(Common.display_status);
             yearMonth_TB.Text = getTodaysYearMonth();
         }
@@ -34,7 +34,7 @@ namespace MoneyManagementSystem
             dataGridView1.Rows.Clear();
         }
 
-        private void initPaymentFigure()
+        private void updatePaymentFigure()
         {
             try
             {
@@ -46,9 +46,10 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
-                sqlstr = sqlstr + "WHERE MD.UserId = @user";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
                 cmd.Parameters.Add(new SqlParameter("@user", Common.display_status));
+                cmd.Parameters.Add(new SqlParameter("@paymentId", Common.payment_status));
 
                 SqlDataReader sdr = cmd.ExecuteReader();
 
@@ -82,18 +83,20 @@ namespace MoneyManagementSystem
         private void Spending_Button_Click(object sender, EventArgs e)
         {
             Common.payment_status =(int)Common.Amount_Status_List.SPENDING;
+            gridUpdate();
         }
 
         private void Income_Button_Click(object sender, EventArgs e)
         {
             Common.payment_status = (int)Common.Amount_Status_List.INCOME;
+            gridUpdate();
         }
 
         private void gridUpdate()
         {
             this.SuspendLayout();
             clearPaymentFigure();
-            initPaymentFigure();
+            updatePaymentFigure();
             this.ResumeLayout();
         }
 

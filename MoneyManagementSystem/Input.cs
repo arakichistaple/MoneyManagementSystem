@@ -67,7 +67,7 @@ namespace MoneyManagementSystem
                 con.Open();
 
                 string sqlstr = "";
-                sqlstr = sqlstr + "INSERT INTO [dbo].[MoneyDetail] VALUES (@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share)";
+                sqlstr = sqlstr + "INSERT INTO [dbo].[MoneyDetail] VALUES (@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off)";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
                 int i = getUserId();
                 cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
@@ -84,6 +84,16 @@ namespace MoneyManagementSystem
                 cmd.Parameters["@amounts"].Value = getAmount();
                 cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
                 cmd.Parameters["@share"].Value = getShare();
+
+                cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
+                if(getShare() == true)
+                {
+                    cmd.Parameters["@pay_off"].Value = true;
+                }
+                else
+                {
+                    cmd.Parameters["@pay_off"].Value = false;
+                }
 
 
                 cmd.ExecuteNonQuery();

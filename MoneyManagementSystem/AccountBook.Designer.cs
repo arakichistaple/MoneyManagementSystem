@@ -30,12 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountBook));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Input_Button = new MoneyManagementSystem.CircularButton();
+            this.home_Btn = new MoneyManagementSystem.CircularButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Income_Button = new System.Windows.Forms.Button();
             this.Spending_Button = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -51,8 +48,12 @@
             this.yearMonth_TB = new System.Windows.Forms.TextBox();
             this.nextMonthBtn = new System.Windows.Forms.Button();
             this.prevMonthBtn = new System.Windows.Forms.Button();
-            this.Input_Button = new MoneyManagementSystem.CircularButton();
-            this.home_Btn = new MoneyManagementSystem.CircularButton();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -68,6 +69,26 @@
             this.panel1.Size = new System.Drawing.Size(1501, 140);
             this.panel1.TabIndex = 1;
             // 
+            // Input_Button
+            // 
+            this.Input_Button.Location = new System.Drawing.Point(690, 26);
+            this.Input_Button.Name = "Input_Button";
+            this.Input_Button.Size = new System.Drawing.Size(90, 91);
+            this.Input_Button.TabIndex = 1;
+            this.Input_Button.Text = "入力";
+            this.Input_Button.UseVisualStyleBackColor = true;
+            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
+            // 
+            // home_Btn
+            // 
+            this.home_Btn.Location = new System.Drawing.Point(88, 26);
+            this.home_Btn.Name = "home_Btn";
+            this.home_Btn.Size = new System.Drawing.Size(90, 91);
+            this.home_Btn.TabIndex = 0;
+            this.home_Btn.Text = "Home";
+            this.home_Btn.UseVisualStyleBackColor = true;
+            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -77,37 +98,13 @@
             this.Column4,
             this.Column5,
             this.Column6,
-            this.Column7});
+            this.Column7,
+            this.Column1});
             this.dataGridView1.Location = new System.Drawing.Point(702, 209);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(811, 404);
             this.dataGridView1.TabIndex = 2;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "項目";
-            this.Column2.Name = "Column2";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "内容";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "日付";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "金額";
-            this.Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "共有";
-            this.Column7.Name = "Column7";
             // 
             // Income_Button
             // 
@@ -258,25 +255,35 @@
             this.prevMonthBtn.UseVisualStyleBackColor = true;
             this.prevMonthBtn.Click += new System.EventHandler(this.prevMonthBtn_Click);
             // 
-            // Input_Button
+            // Column2
             // 
-            this.Input_Button.Location = new System.Drawing.Point(690, 26);
-            this.Input_Button.Name = "Input_Button";
-            this.Input_Button.Size = new System.Drawing.Size(90, 91);
-            this.Input_Button.TabIndex = 1;
-            this.Input_Button.Text = "入力";
-            this.Input_Button.UseVisualStyleBackColor = true;
-            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
+            this.Column2.HeaderText = "項目";
+            this.Column2.Name = "Column2";
             // 
-            // home_Btn
+            // Column4
             // 
-            this.home_Btn.Location = new System.Drawing.Point(88, 26);
-            this.home_Btn.Name = "home_Btn";
-            this.home_Btn.Size = new System.Drawing.Size(90, 91);
-            this.home_Btn.TabIndex = 0;
-            this.home_Btn.Text = "Home";
-            this.home_Btn.UseVisualStyleBackColor = true;
-            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
+            this.Column4.HeaderText = "内容";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "日付";
+            this.Column5.Name = "Column5";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "金額";
+            this.Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "共有";
+            this.Column7.Name = "Column7";
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "精算状況";
+            this.Column1.Name = "Column1";
             // 
             // AccountBook
             // 
@@ -322,13 +329,14 @@
         private System.Windows.Forms.Label IncomeCost;
         private System.Windows.Forms.Label Header_Income_LB;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox yearMonth_TB;
+        private System.Windows.Forms.Button nextMonthBtn;
+        private System.Windows.Forms.Button prevMonthBtn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.TextBox yearMonth_TB;
-        private System.Windows.Forms.Button nextMonthBtn;
-        private System.Windows.Forms.Button prevMonthBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

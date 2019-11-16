@@ -42,7 +42,7 @@ namespace MoneyManagementSystem
                 con.Open();
 
                 string sqlstr = "";
-                sqlstr = sqlstr + "SELECT UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share ";
+                sqlstr = sqlstr + "SELECT UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share, PayOff ";
                 sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
@@ -62,8 +62,9 @@ namespace MoneyManagementSystem
                     DateTime date = (DateTime)sdr["Date"];
                     int amount = (int)sdr["Amounts"];
                     bool share = (bool)sdr["Share"];
+                    bool pay_off = (bool)sdr["PayOff"];
 
-                    addData(major_name, detail, date, amount, share);
+                    addData(major_name, detail, date, amount, share, pay_off);
                     //string user = (string)sdr["model"];
 
                 }
@@ -75,9 +76,27 @@ namespace MoneyManagementSystem
             }
         }
 
-        private void addData(string major_name, string detail, DateTime date, int amount, bool share)
+        private void addData(string major_name, string detail, DateTime date, int amount, bool share, bool pay_off)
         {
-            dataGridView1.Rows.Add(major_name, detail, date.ToString("yyyy年MM月dd日"), amount, share);
+            string pay_off_str = "";
+            if (share == true)
+            {
+                if (pay_off == true)
+                {
+                    pay_off_str = "済";
+                }
+                else
+                {
+                    pay_off_str = "未清算";
+                }
+            }
+            else
+            {
+                pay_off_str = "対象外";
+            }
+            
+
+            dataGridView1.Rows.Add(major_name, detail, date.ToString("yyyy年MM月dd日"), amount, share, pay_off_str);
         }
 
         private void Spending_Button_Click(object sender, EventArgs e)

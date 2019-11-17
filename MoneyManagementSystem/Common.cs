@@ -12,6 +12,9 @@ namespace MoneyManagementSystem
         public static int payment_status = 0;
         public static int display_status = 0;
 
+        public static string person1 = "けいすけ";
+        public static string person2 = "みき";
+
         public enum Amount_Status_List
         {
             SPENDING = 1,
@@ -24,7 +27,15 @@ namespace MoneyManagementSystem
             DISP_MIKI = 2
         }
 
-        
+        public static string getTodaysYearMonth()
+        {
+            DateTime dt = DateTime.Now;
+
+            string result = dt.ToString("yyyy年MM月");
+
+            return result;
+        }
+
         /// <summary>
         /// 該当年月の日数を返す
         /// </summary>

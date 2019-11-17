@@ -75,6 +75,7 @@
             this.PayOff_Button.TabIndex = 4;
             this.PayOff_Button.Text = "精算";
             this.PayOff_Button.UseVisualStyleBackColor = true;
+            this.PayOff_Button.Click += new System.EventHandler(this.PayOff_Button_Click);
             // 
             // StartMenu
             // 

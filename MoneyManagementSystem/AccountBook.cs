@@ -23,7 +23,7 @@ namespace MoneyManagementSystem
 
         private void AccountBook_Load(object sender, EventArgs e)
         {
-            yearMonth_TB.Text = getTodaysYearMonth();
+            yearMonth_TB.Text = Common.getTodaysYearMonth();
             updateForm();
         }
 
@@ -78,9 +78,14 @@ namespace MoneyManagementSystem
                     bool share = (bool)sdr["Share"];
                     bool pay_off = (bool)sdr["PayOff"];
 
-                    
-                    addData(major_name, detail, date, amount, share, pay_off);
-                    //string user = (string)sdr["model"];
+                    if (Common.payment_status == (int)Common.Amount_Status_List.INCOME)
+                    {
+                        addData(major_name, detail, date, amount, share, pay_off);
+                    }
+                    else if(Common.payment_status == (int)Common.Amount_Status_List.SPENDING)
+                    {
+                        addData(medium_name, detail, date, amount, share, pay_off);
+                    }
 
                 }
                 con.Close();
@@ -91,7 +96,7 @@ namespace MoneyManagementSystem
             }
         }
 
-        private void addData(string major_name, string detail, DateTime date, int amount, bool share, bool pay_off)
+        private void addData(string item_name, string detail, DateTime date, int amount, bool share, bool pay_off)
         {
             string pay_off_str = "";
             if (share == true)
@@ -111,7 +116,7 @@ namespace MoneyManagementSystem
             }
             
 
-            dataGridView1.Rows.Add(major_name, detail, date.ToString("yyyy年MM月dd日"), amount, share, pay_off_str);
+            dataGridView1.Rows.Add(item_name, detail, date.ToString("yyyy年MM月dd日"), amount, share, pay_off_str);
         }
 
         private void Spending_Button_Click(object sender, EventArgs e)
@@ -177,15 +182,6 @@ namespace MoneyManagementSystem
         private void home_Btn_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private  string getTodaysYearMonth()
-        {
-            DateTime dt = DateTime.Now;
-
-            string result = dt.ToString("yyyy年MM月");
-
-            return result;
         }
 
         private void prevMonthBtn_Click(object sender, EventArgs e)

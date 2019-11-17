@@ -29,8 +29,17 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountBook));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Income_Button = new System.Windows.Forms.Button();
             this.Spending_Button = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -46,17 +55,13 @@
             this.yearMonth_TB = new System.Windows.Forms.TextBox();
             this.nextMonthBtn = new System.Windows.Forms.Button();
             this.prevMonthBtn = new System.Windows.Forms.Button();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Input_Button = new MoneyManagementSystem.CircularButton();
             this.home_Btn = new MoneyManagementSystem.CircularButton();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -86,11 +91,41 @@
             this.dataGridView1.Size = new System.Drawing.Size(811, 404);
             this.dataGridView1.TabIndex = 2;
             // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "項目";
+            this.Column2.Name = "Column2";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "内容";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "日付";
+            this.Column5.Name = "Column5";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "金額";
+            this.Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "共有";
+            this.Column7.Name = "Column7";
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "精算状況";
+            this.Column1.Name = "Column1";
+            // 
             // Income_Button
             // 
             this.Income_Button.AutoSize = true;
             this.Income_Button.Font = new System.Drawing.Font("MS UI Gothic", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Income_Button.Location = new System.Drawing.Point(360, 192);
+            this.Income_Button.Location = new System.Drawing.Point(362, 169);
             this.Income_Button.Name = "Income_Button";
             this.Income_Button.Size = new System.Drawing.Size(75, 34);
             this.Income_Button.TabIndex = 3;
@@ -102,7 +137,7 @@
             // 
             this.Spending_Button.AutoSize = true;
             this.Spending_Button.Font = new System.Drawing.Font("MS UI Gothic", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Spending_Button.Location = new System.Drawing.Point(251, 192);
+            this.Spending_Button.Location = new System.Drawing.Point(253, 169);
             this.Spending_Button.Name = "Spending_Button";
             this.Spending_Button.Size = new System.Drawing.Size(75, 34);
             this.Spending_Button.TabIndex = 4;
@@ -210,7 +245,7 @@
             // yearMonth_TB
             // 
             this.yearMonth_TB.Font = new System.Drawing.Font("ＭＳ ゴシック", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.yearMonth_TB.Location = new System.Drawing.Point(251, 122);
+            this.yearMonth_TB.Location = new System.Drawing.Point(526, 87);
             this.yearMonth_TB.Name = "yearMonth_TB";
             this.yearMonth_TB.Size = new System.Drawing.Size(184, 37);
             this.yearMonth_TB.TabIndex = 7;
@@ -219,7 +254,7 @@
             // nextMonthBtn
             // 
             this.nextMonthBtn.Image = global::MoneyManagementSystem.Properties.Resources.RightArrow_mini_;
-            this.nextMonthBtn.Location = new System.Drawing.Point(441, 121);
+            this.nextMonthBtn.Location = new System.Drawing.Point(716, 86);
             this.nextMonthBtn.Name = "nextMonthBtn";
             this.nextMonthBtn.Size = new System.Drawing.Size(48, 38);
             this.nextMonthBtn.TabIndex = 0;
@@ -228,42 +263,12 @@
             // prevMonthBtn
             // 
             this.prevMonthBtn.Image = ((System.Drawing.Image)(resources.GetObject("prevMonthBtn.Image")));
-            this.prevMonthBtn.Location = new System.Drawing.Point(196, 121);
+            this.prevMonthBtn.Location = new System.Drawing.Point(471, 86);
             this.prevMonthBtn.Name = "prevMonthBtn";
             this.prevMonthBtn.Size = new System.Drawing.Size(49, 38);
             this.prevMonthBtn.TabIndex = 8;
             this.prevMonthBtn.UseVisualStyleBackColor = true;
             this.prevMonthBtn.Click += new System.EventHandler(this.prevMonthBtn_Click);
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "項目";
-            this.Column2.Name = "Column2";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "内容";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "日付";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "金額";
-            this.Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "共有";
-            this.Column7.Name = "Column7";
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "精算状況";
-            this.Column1.Name = "Column1";
             // 
             // Input_Button
             // 
@@ -285,11 +290,29 @@
             this.home_Btn.UseVisualStyleBackColor = true;
             this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(12, 209);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(684, 404);
+            this.chart1.TabIndex = 9;
+            this.chart1.Text = "chart1";
+            // 
             // AccountBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1525, 771);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.prevMonthBtn);
             this.Controls.Add(this.nextMonthBtn);
             this.Controls.Add(this.yearMonth_TB);
@@ -306,6 +329,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,5 +362,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

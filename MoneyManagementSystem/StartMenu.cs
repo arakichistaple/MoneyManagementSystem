@@ -36,5 +36,13 @@ namespace MoneyManagementSystem
             miki_account_book.ShowDialog();
             this.Show();
         }
+
+        private void PayOff_Button_Click(object sender, EventArgs e)
+        {
+            PayOff pay_off_form = new PayOff();
+            this.Hide();
+            pay_off_form.ShowDialog();
+            this.Show();
+        }
     }
 }

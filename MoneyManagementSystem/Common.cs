@@ -25,5 +25,36 @@ namespace MoneyManagementSystem
         }
 
         
+        /// <summary>
+        /// 該当年月の日数を返す
+        /// </summary>
+        /// <param name="dt">DateTime</param>
+        /// <returns>DateTime</returns>
+        public static int DaysInMonth(DateTime dt)
+        {
+            return DateTime.DaysInMonth(dt.Year, dt.Month);
+        }
+
+        /// <summary>
+        /// 月初日を返す
+        /// </summary>
+        /// <param name="dt">DateTime</param>
+        /// <returns>Datetime</returns>
+        public static DateTime BeginOfMonth(DateTime dt)
+        {
+            return dt.AddDays((dt.Day - 1) * -1);
+        }
+
+        /// <summary>
+        /// 月末日を返す
+        /// </summary>
+        /// <param name="dt">DateTime</param>
+        /// <returns>DateTime</returns>
+        public static DateTime EndOfMonth(DateTime dt)
+        {
+            return new DateTime(dt.Year, dt.Month, DaysInMonth(dt));
+        }
+        
+
     }
 }

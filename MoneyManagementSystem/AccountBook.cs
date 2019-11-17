@@ -23,10 +23,19 @@ namespace MoneyManagementSystem
 
         private void AccountBook_Load(object sender, EventArgs e)
         {
-            clearPaymentFigure();
-            updatePaymentFigure();
-            setFormName(Common.display_status);
             yearMonth_TB.Text = getTodaysYearMonth();
+            updateForm();
+        }
+
+        private void updateForm()
+        {
+            this.SuspendLayout();
+            gridUpdate();
+            setFormName(Common.display_status);
+            setMonthlyIncome();
+            setMonthlySpending();
+            setMonthlyTotal();
+            this.ResumeLayout();
         }
 
         private void clearPaymentFigure()
@@ -36,6 +45,8 @@ namespace MoneyManagementSystem
 
         private void updatePaymentFigure()
         {
+            DateTime nowYearMonth = getNowYearMonth();
+
             try
             {
                 SqlConnection con = new SqlConnection(com.CON_STR);
@@ -46,10 +57,13 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
-                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND ";
+                sqlstr = sqlstr + "( MD.Date BETWEEN @begin_of_month AND @end_of_month)";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
                 cmd.Parameters.Add(new SqlParameter("@user", Common.display_status));
                 cmd.Parameters.Add(new SqlParameter("@paymentId", Common.payment_status));
+                cmd.Parameters.Add(new SqlParameter("@begin_of_month", Common.BeginOfMonth(nowYearMonth)));
+                cmd.Parameters.Add(new SqlParameter("@end_of_month", Common.EndOfMonth(nowYearMonth)));
 
                 SqlDataReader sdr = cmd.ExecuteReader();
 
@@ -64,6 +78,7 @@ namespace MoneyManagementSystem
                     bool share = (bool)sdr["Share"];
                     bool pay_off = (bool)sdr["PayOff"];
 
+                    
                     addData(major_name, detail, date, amount, share, pay_off);
                     //string user = (string)sdr["model"];
 
@@ -113,10 +128,8 @@ namespace MoneyManagementSystem
 
         private void gridUpdate()
         {
-            this.SuspendLayout();
             clearPaymentFigure();
             updatePaymentFigure();
-            this.ResumeLayout();
         }
 
         private void Input_Button_Click(object sender, EventArgs e)
@@ -178,6 +191,7 @@ namespace MoneyManagementSystem
         private void prevMonthBtn_Click(object sender, EventArgs e)
         {
             setPrevMonthText();
+            updateForm();
         }
 
         private void setPrevMonthText()
@@ -191,6 +205,7 @@ namespace MoneyManagementSystem
         private void nextMonthBtn_Click(object sender, EventArgs e)
         {
             setNextMonthText();
+            updateForm();
         }
 
         private void setNextMonthText()
@@ -207,6 +222,119 @@ namespace MoneyManagementSystem
             string now_year_month_string = yearMonth_TB.Text;
 
             return DateTime.ParseExact(now_year_month_string, format, null);
+        }
+
+        private void setMonthlyIncome()
+        {
+            int monthly_income_result = 0;
+
+            monthly_income_result = getMonthlyIncomeTotal();
+
+            IncomeCost_LB.Text = monthly_income_result.ToString();
+
+        }
+
+        private void setMonthlySpending()
+        {
+            int monthly_spending_result = 0;
+
+            monthly_spending_result = getMonthlySpendingTotal();
+
+            SpendingCost_LB.Text = monthly_spending_result.ToString();
+        }
+
+        private int getMonthlyIncomeTotal()
+        {
+            int monthly_income_total = 0;
+            DateTime nowYearMonth = getNowYearMonth();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share, PayOff ";
+                sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
+                sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
+                sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND ";
+                sqlstr = sqlstr + "( MD.Date BETWEEN @begin_of_month AND @end_of_month)";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@user", Common.display_status));
+                cmd.Parameters.Add(new SqlParameter("@paymentId", Common.Amount_Status_List.INCOME));
+                cmd.Parameters.Add(new SqlParameter("@begin_of_month", Common.BeginOfMonth(nowYearMonth)));
+                cmd.Parameters.Add(new SqlParameter("@end_of_month", Common.EndOfMonth(nowYearMonth)));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                while (sdr.Read() == true)
+                {
+                    int amount = (int)sdr["Amounts"];
+                    monthly_income_total += amount;
+
+                }
+                con.Close();
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return monthly_income_total;
+        }
+
+        private int getMonthlySpendingTotal()
+        {
+            int monthly_spending_total = 0;
+            DateTime nowYearMonth = getNowYearMonth();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share, PayOff ";
+                sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
+                sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
+                sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND ";
+                sqlstr = sqlstr + "( MD.Date BETWEEN @begin_of_month AND @end_of_month)";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@user", Common.display_status));
+                cmd.Parameters.Add(new SqlParameter("@paymentId", Common.Amount_Status_List.SPENDING));
+                cmd.Parameters.Add(new SqlParameter("@begin_of_month", Common.BeginOfMonth(nowYearMonth)));
+                cmd.Parameters.Add(new SqlParameter("@end_of_month", Common.EndOfMonth(nowYearMonth)));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                while (sdr.Read() == true)
+                {
+                    int amount = (int)sdr["Amounts"];
+                    monthly_spending_total += amount;
+
+                }
+                con.Close();
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return monthly_spending_total;
+        }
+
+        private void setMonthlyTotal()
+        {
+            int monthly_income_total = int.Parse(IncomeCost_LB.Text);
+            int monthly_spending_total = int.Parse(SpendingCost_LB.Text);
+
+            int monthly_total = monthly_income_total - monthly_spending_total;
+
+            TotalCost_LB.Text = monthly_total.ToString();
         }
     }
 }

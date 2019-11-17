@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountBook));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.Input_Button = new MoneyManagementSystem.CircularButton();
-            this.home_Btn = new MoneyManagementSystem.CircularButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Income_Button = new System.Windows.Forms.Button();
             this.Spending_Button = new System.Windows.Forms.Button();
@@ -39,10 +37,10 @@
             this.TotaLB = new System.Windows.Forms.Label();
             this.TotalCost_LB = new System.Windows.Forms.Label();
             this.Equal_LB = new System.Windows.Forms.Label();
-            this.SpendingCost = new System.Windows.Forms.Label();
+            this.SpendingCost_LB = new System.Windows.Forms.Label();
             this.Spending_LB = new System.Windows.Forms.Label();
             this.Minus_LB = new System.Windows.Forms.Label();
-            this.IncomeCost = new System.Windows.Forms.Label();
+            this.IncomeCost_LB = new System.Windows.Forms.Label();
             this.Header_Income_LB = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.yearMonth_TB = new System.Windows.Forms.TextBox();
@@ -54,6 +52,8 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Input_Button = new MoneyManagementSystem.CircularButton();
+            this.home_Btn = new MoneyManagementSystem.CircularButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -68,26 +68,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1501, 140);
             this.panel1.TabIndex = 1;
-            // 
-            // Input_Button
-            // 
-            this.Input_Button.Location = new System.Drawing.Point(690, 26);
-            this.Input_Button.Name = "Input_Button";
-            this.Input_Button.Size = new System.Drawing.Size(90, 91);
-            this.Input_Button.TabIndex = 1;
-            this.Input_Button.Text = "入力";
-            this.Input_Button.UseVisualStyleBackColor = true;
-            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
-            // 
-            // home_Btn
-            // 
-            this.home_Btn.Location = new System.Drawing.Point(88, 26);
-            this.home_Btn.Name = "home_Btn";
-            this.home_Btn.Size = new System.Drawing.Size(90, 91);
-            this.home_Btn.TabIndex = 0;
-            this.home_Btn.Text = "Home";
-            this.home_Btn.UseVisualStyleBackColor = true;
-            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
             // 
             // dataGridView1
             // 
@@ -136,10 +116,10 @@
             this.panel2.Controls.Add(this.TotaLB);
             this.panel2.Controls.Add(this.TotalCost_LB);
             this.panel2.Controls.Add(this.Equal_LB);
-            this.panel2.Controls.Add(this.SpendingCost);
+            this.panel2.Controls.Add(this.SpendingCost_LB);
             this.panel2.Controls.Add(this.Spending_LB);
             this.panel2.Controls.Add(this.Minus_LB);
-            this.panel2.Controls.Add(this.IncomeCost);
+            this.panel2.Controls.Add(this.IncomeCost_LB);
             this.panel2.Controls.Add(this.Header_Income_LB);
             this.panel2.Location = new System.Drawing.Point(12, 12);
             this.panel2.Name = "panel2";
@@ -173,14 +153,14 @@
             this.Equal_LB.TabIndex = 5;
             this.Equal_LB.Text = "=";
             // 
-            // SpendingCost
+            // SpendingCost_LB
             // 
-            this.SpendingCost.AutoSize = true;
-            this.SpendingCost.Location = new System.Drawing.Point(687, 45);
-            this.SpendingCost.Name = "SpendingCost";
-            this.SpendingCost.Size = new System.Drawing.Size(23, 15);
-            this.SpendingCost.TabIndex = 4;
-            this.SpendingCost.Text = "\\0";
+            this.SpendingCost_LB.AutoSize = true;
+            this.SpendingCost_LB.Location = new System.Drawing.Point(687, 45);
+            this.SpendingCost_LB.Name = "SpendingCost_LB";
+            this.SpendingCost_LB.Size = new System.Drawing.Size(23, 15);
+            this.SpendingCost_LB.TabIndex = 4;
+            this.SpendingCost_LB.Text = "\\0";
             // 
             // Spending_LB
             // 
@@ -200,14 +180,14 @@
             this.Minus_LB.TabIndex = 2;
             this.Minus_LB.Text = "-";
             // 
-            // IncomeCost
+            // IncomeCost_LB
             // 
-            this.IncomeCost.AutoSize = true;
-            this.IncomeCost.Location = new System.Drawing.Point(511, 45);
-            this.IncomeCost.Name = "IncomeCost";
-            this.IncomeCost.Size = new System.Drawing.Size(23, 15);
-            this.IncomeCost.TabIndex = 1;
-            this.IncomeCost.Text = "\\0";
+            this.IncomeCost_LB.AutoSize = true;
+            this.IncomeCost_LB.Location = new System.Drawing.Point(511, 45);
+            this.IncomeCost_LB.Name = "IncomeCost_LB";
+            this.IncomeCost_LB.Size = new System.Drawing.Size(23, 15);
+            this.IncomeCost_LB.TabIndex = 1;
+            this.IncomeCost_LB.Text = "\\0";
             // 
             // Header_Income_LB
             // 
@@ -285,6 +265,26 @@
             this.Column1.HeaderText = "精算状況";
             this.Column1.Name = "Column1";
             // 
+            // Input_Button
+            // 
+            this.Input_Button.Location = new System.Drawing.Point(690, 26);
+            this.Input_Button.Name = "Input_Button";
+            this.Input_Button.Size = new System.Drawing.Size(90, 91);
+            this.Input_Button.TabIndex = 1;
+            this.Input_Button.Text = "入力";
+            this.Input_Button.UseVisualStyleBackColor = true;
+            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
+            // 
+            // home_Btn
+            // 
+            this.home_Btn.Location = new System.Drawing.Point(88, 26);
+            this.home_Btn.Name = "home_Btn";
+            this.home_Btn.Size = new System.Drawing.Size(90, 91);
+            this.home_Btn.TabIndex = 0;
+            this.home_Btn.Text = "Home";
+            this.home_Btn.UseVisualStyleBackColor = true;
+            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
+            // 
             // AccountBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -323,10 +323,10 @@
         private System.Windows.Forms.Label TotaLB;
         private System.Windows.Forms.Label TotalCost_LB;
         private System.Windows.Forms.Label Equal_LB;
-        private System.Windows.Forms.Label SpendingCost;
+        private System.Windows.Forms.Label SpendingCost_LB;
         private System.Windows.Forms.Label Spending_LB;
         private System.Windows.Forms.Label Minus_LB;
-        private System.Windows.Forms.Label IncomeCost;
+        private System.Windows.Forms.Label IncomeCost_LB;
         private System.Windows.Forms.Label Header_Income_LB;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox yearMonth_TB;

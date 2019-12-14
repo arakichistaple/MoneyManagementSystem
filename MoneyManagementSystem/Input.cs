@@ -40,12 +40,15 @@ namespace MoneyManagementSystem
         private void Spending_button_Click(object sender, EventArgs e)
         {
             paymentStatus((int)Common.Amount_Status_List.SPENDING);
+            Shared_CB.Visible = true;
             itemTextClear();
         }
 
         private void Income_Button_Click(object sender, EventArgs e)
         {
             paymentStatus((int)Common.Amount_Status_List.INCOME);
+            Shared_CB.Checked = false;
+            Shared_CB.Visible = false;
             itemTextClear();
         }
 
@@ -86,14 +89,7 @@ namespace MoneyManagementSystem
                 cmd.Parameters["@share"].Value = getShare();
 
                 cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
-                if(getShare() == true)
-                {
-                    cmd.Parameters["@pay_off"].Value = true;
-                }
-                else
-                {
-                    cmd.Parameters["@pay_off"].Value = false;
-                }
+                cmd.Parameters["@pay_off"].Value = false;
 
 
                 cmd.ExecuteNonQuery();

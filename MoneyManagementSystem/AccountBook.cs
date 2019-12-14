@@ -8,12 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace MoneyManagementSystem
 {
     public partial class AccountBook : Form
     {
         Common com = new Common();
+
+        public struct DoughnutData
+        {
+            public string[] item;
+            public int[] item_total_cost;
+        }
 
         public AccountBook()
         {
@@ -36,6 +43,10 @@ namespace MoneyManagementSystem
             setMonthlySpending();
             setMonthlyTotal();
             this.ResumeLayout();
+            this.SuspendLayout();
+            updateDoughnutGraph();
+            this.ResumeLayout();
+            
         }
 
         private void clearPaymentFigure()
@@ -331,6 +342,138 @@ namespace MoneyManagementSystem
             int monthly_total = monthly_income_total - monthly_spending_total;
 
             TotalCost_LB.Text = monthly_total.ToString();
+        }
+
+        private void updateDoughnutGraph()
+        {
+            DoughnutData datas = new DoughnutData()
+            {
+                item = new string[dataGridView1.Rows.Count],
+                item_total_cost = new int[dataGridView1.Rows.Count]
+            };
+
+            getEachItemTotalCost(ref datas.item, ref datas.item_total_cost);
+
+            // 初期化
+            chart1.Series.Clear();
+            chart1.Titles.Clear();
+
+            // データの取得
+            DataSet ds = GetData(datas);
+
+            // Chartコントロールにデータソースを設定
+            chart1.DataSource = ds;
+
+            // Chartコントロールにタイトルを設定
+            chart1.Titles.Add("項目別の割合");
+
+            // グラフの種類,系列,軸の設定
+            for (int i = 1; i < ds.Tables[0].Columns.Count; i++)
+            {
+                // 列名の取得
+                string columnName = ds.Tables[0].Columns[i].ColumnName;
+
+                // 系列の設定
+                chart1.Series.Add(columnName);
+
+                // グラフの種類
+                chart1.Series[columnName].ChartType = SeriesChartType.Doughnut;
+
+                // X軸
+                chart1.Series[columnName].XValueMember = ds.Tables[0].Columns[0].ColumnName.ToString();
+                chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+                chart1.ChartAreas[0].AxisX.MinorGrid.Enabled = false;
+
+                // Y軸
+                chart1.Series[columnName].YValueMembers = columnName;
+            }
+
+            // X軸タイトル
+            chart1.ChartAreas[0].AxisX.Title = "項目";
+
+            chart1.DataBind();
+
+            /*
+            // フォームをロードするときの処理
+            chart1.Series.Clear();  // ← 最初からSeriesが1つあるのでクリアします
+            chart1.ChartAreas.Clear();
+
+            // ChartにChartAreaを追加します
+            string chart_area1 = "Area1";
+            chart1.ChartAreas.Add(new ChartArea(chart_area1));
+            // ChartにSeriesを追加します
+            string legend1 = "Graph1";
+            chart1.Series.Add(legend1);
+            // グラフの種別を指定
+            chart1.Series[legend1].ChartType = SeriesChartType.Pie; // 円グラフを指定してみます
+
+            // 各項目の値を加算して合計(全体の大きさ)を算出します
+            double total = (double)datas.item_total_cost.Sum();
+
+            // データをシリーズにセットします
+            for (int i = 0; i < datas.item_total_cost.Length; i++)
+            {
+                double rate = (datas.item_total_cost[i] / total) * 100.0;  // <-- ここで割合を算出します
+                DataPoint dp = new DataPoint(rate, rate);
+                chart1.Series[legend1].Points.Add(dp);
+            }
+            */
+        }
+
+        /// データの設定
+        private DataSet GetData(DoughnutData datas)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataRow dtRow;
+
+            // 列の作成
+            dt.Columns.Add("項目", Type.GetType("System.String"));
+            dt.Columns.Add("項目別合計費", Type.GetType("System.Int32"));
+            ds.Tables.Add(dt);
+
+            for (int i = 0; i < datas.item.Length; i++)
+            {
+                // データの追加
+                dtRow = ds.Tables[0].NewRow();
+                dtRow[0] = datas.item[i];
+                dtRow[1] = datas.item_total_cost[i];
+                ds.Tables[0].Rows.Add(dtRow);
+
+            }
+            return ds;
+        }
+
+        private void getEachItemTotalCost(ref string[] item, ref int[] item_total_cost)
+        {
+            int item_cnt = 0;
+            bool matched = false;
+
+            //  datagridviewの一行ずつに対して
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                // 既存の項目なら加算、ないなら新規追加
+                for (int j = 0; j < item_cnt; j++)
+                {
+                    // アイテムリストにあれば合計値を加算
+                    // if(item[j] == datagridview[i]の名前と一致
+                    if (dataGridView1.Rows[i].Cells[0].Value.ToString() == item[j])
+                    {
+                        item_total_cost[j] += (int)dataGridView1.Rows[i].Cells[3].Value;
+                        matched = true;
+                    }
+                }
+
+                // アイテムリストになければ新規アイテムに追加と加算
+                if (matched == false)
+                {
+                    item[item_cnt] = dataGridView1.Rows[i].Cells[0].Value.ToString();
+                    item_total_cost[item_cnt] = (int)dataGridView1.Rows[i].Cells[3].Value;
+                    item_cnt++;
+                }
+
+                matched = false;
+            }
         }
     }
 }

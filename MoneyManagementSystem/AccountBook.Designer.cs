@@ -33,6 +33,8 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Input_Button = new MoneyManagementSystem.CircularButton();
+            this.home_Btn = new MoneyManagementSystem.CircularButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,8 +57,6 @@
             this.yearMonth_TB = new System.Windows.Forms.TextBox();
             this.nextMonthBtn = new System.Windows.Forms.Button();
             this.prevMonthBtn = new System.Windows.Forms.Button();
-            this.Input_Button = new MoneyManagementSystem.CircularButton();
-            this.home_Btn = new MoneyManagementSystem.CircularButton();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -74,8 +74,29 @@
             this.panel1.Size = new System.Drawing.Size(1501, 140);
             this.panel1.TabIndex = 1;
             // 
+            // Input_Button
+            // 
+            this.Input_Button.Location = new System.Drawing.Point(690, 26);
+            this.Input_Button.Name = "Input_Button";
+            this.Input_Button.Size = new System.Drawing.Size(90, 91);
+            this.Input_Button.TabIndex = 1;
+            this.Input_Button.Text = "入力";
+            this.Input_Button.UseVisualStyleBackColor = true;
+            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
+            // 
+            // home_Btn
+            // 
+            this.home_Btn.Location = new System.Drawing.Point(88, 26);
+            this.home_Btn.Name = "home_Btn";
+            this.home_Btn.Size = new System.Drawing.Size(90, 91);
+            this.home_Btn.TabIndex = 0;
+            this.home_Btn.Text = "Home";
+            this.home_Btn.UseVisualStyleBackColor = true;
+            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
+            // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -269,26 +290,6 @@
             this.prevMonthBtn.TabIndex = 8;
             this.prevMonthBtn.UseVisualStyleBackColor = true;
             this.prevMonthBtn.Click += new System.EventHandler(this.prevMonthBtn_Click);
-            // 
-            // Input_Button
-            // 
-            this.Input_Button.Location = new System.Drawing.Point(690, 26);
-            this.Input_Button.Name = "Input_Button";
-            this.Input_Button.Size = new System.Drawing.Size(90, 91);
-            this.Input_Button.TabIndex = 1;
-            this.Input_Button.Text = "入力";
-            this.Input_Button.UseVisualStyleBackColor = true;
-            this.Input_Button.Click += new System.EventHandler(this.Input_Button_Click);
-            // 
-            // home_Btn
-            // 
-            this.home_Btn.Location = new System.Drawing.Point(88, 26);
-            this.home_Btn.Name = "home_Btn";
-            this.home_Btn.Size = new System.Drawing.Size(90, 91);
-            this.home_Btn.TabIndex = 0;
-            this.home_Btn.Text = "Home";
-            this.home_Btn.UseVisualStyleBackColor = true;
-            this.home_Btn.Click += new System.EventHandler(this.home_Btn_Click);
             // 
             // chart1
             // 

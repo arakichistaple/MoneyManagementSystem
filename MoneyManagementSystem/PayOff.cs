@@ -267,5 +267,39 @@ namespace MoneyManagementSystem
             }
         }
 
+        private void PayOff_Btn_Click(object sender, EventArgs e)
+        {
+
+            updatePayOffToFalse();
+            updateForm();
+
+        }
+
+        private void updatePayOffToFalse()
+        {
+            DateTime nowYearMonth = getNowYearMonth();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "UPDATE [dbo].[MoneyDetail] ";
+                sqlstr = sqlstr + "SET Share = CONVERT(bit, 'false'), PayOff = CONVERT(bit, 'true') ";
+                sqlstr = sqlstr + "WHERE [dbo].[MoneyDetail].Share = CONVERT(bit, 'true') AND ";
+                sqlstr = sqlstr + "( [dbo].[MoneyDetail].Date BETWEEN @begin_of_month AND @end_of_month)";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@begin_of_month", Common.BeginOfMonth(nowYearMonth)));
+                cmd.Parameters.Add(new SqlParameter("@end_of_month", Common.EndOfMonth(nowYearMonth)));
+
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

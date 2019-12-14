@@ -34,6 +34,7 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Name1_LB = new System.Windows.Forms.Label();
             this.Name2_LB = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,7 +43,7 @@
             this.Total2_LB = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.PayOff_Btn = new System.Windows.Forms.Button();
             this.Back_Button = new System.Windows.Forms.Button();
             this.Payer_LB = new System.Windows.Forms.Label();
             this.PayerCost_LB = new System.Windows.Forms.Label();
@@ -51,11 +52,10 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.prevMonthBtn = new System.Windows.Forms.Button();
             this.nextMonthBtn = new System.Windows.Forms.Button();
             this.yearMonth_TB = new System.Windows.Forms.TextBox();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -94,6 +94,11 @@
             // 
             this.Column4.HeaderText = "金額";
             this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "精算状況";
+            this.Column5.Name = "Column5";
             // 
             // Name1_LB
             // 
@@ -175,14 +180,15 @@
             this.label8.TabIndex = 9;
             this.label8.Text = "金額";
             // 
-            // button1
+            // PayOff_Btn
             // 
-            this.button1.Location = new System.Drawing.Point(1244, 137);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 39);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "精算";
-            this.button1.UseVisualStyleBackColor = true;
+            this.PayOff_Btn.Location = new System.Drawing.Point(1244, 137);
+            this.PayOff_Btn.Name = "PayOff_Btn";
+            this.PayOff_Btn.Size = new System.Drawing.Size(116, 39);
+            this.PayOff_Btn.TabIndex = 10;
+            this.PayOff_Btn.Text = "精算";
+            this.PayOff_Btn.UseVisualStyleBackColor = true;
+            this.PayOff_Btn.Click += new System.EventHandler(this.PayOff_Btn_Click);
             // 
             // Back_Button
             // 
@@ -250,6 +256,11 @@
             this.dataGridViewTextBoxColumn4.HeaderText = "金額";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "精算状況";
+            this.Column6.Name = "Column6";
+            // 
             // prevMonthBtn
             // 
             this.prevMonthBtn.Image = ((System.Drawing.Image)(resources.GetObject("prevMonthBtn.Image")));
@@ -278,16 +289,6 @@
             this.yearMonth_TB.TabIndex = 16;
             this.yearMonth_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "精算状況";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "精算状況";
-            this.Column6.Name = "Column6";
-            // 
             // PayOff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -300,7 +301,7 @@
             this.Controls.Add(this.PayerCost_LB);
             this.Controls.Add(this.Payer_LB);
             this.Controls.Add(this.Back_Button);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.PayOff_Btn);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.Total2_LB);
@@ -331,7 +332,7 @@
         private System.Windows.Forms.Label Total2_LB;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button PayOff_Btn;
         private System.Windows.Forms.Button Back_Button;
         private System.Windows.Forms.Label Payer_LB;
         private System.Windows.Forms.Label PayerCost_LB;

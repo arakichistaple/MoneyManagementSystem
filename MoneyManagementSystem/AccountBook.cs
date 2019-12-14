@@ -133,28 +133,19 @@ namespace MoneyManagementSystem
         private void Spending_Button_Click(object sender, EventArgs e)
         {
             Common.payment_status =(int)Common.Amount_Status_List.SPENDING;
-            gridUpdate();
+            updateForm();
         }
 
         private void Income_Button_Click(object sender, EventArgs e)
         {
             Common.payment_status = (int)Common.Amount_Status_List.INCOME;
-            gridUpdate();
+            updateForm();
         }
 
         private void gridUpdate()
         {
             clearPaymentFigure();
             updatePaymentFigure();
-        }
-
-        private void Input_Button_Click(object sender, EventArgs e)
-        {
-            Input input_form = new Input();
-            this.Hide();
-            input_form.ShowDialog();
-            this.Show();
-            gridUpdate();
         }
 
         private void setFormName(int user_id)
@@ -188,11 +179,6 @@ namespace MoneyManagementSystem
             {
                 MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void home_Btn_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void prevMonthBtn_Click(object sender, EventArgs e)
@@ -474,6 +460,20 @@ namespace MoneyManagementSystem
 
                 matched = false;
             }
+        }
+
+        private void Input_Btn_Click(object sender, EventArgs e)
+        {
+            Input input_form = new Input();
+            this.Hide();
+            input_form.ShowDialog();
+            this.Show();
+            gridUpdate();
+        }
+
+        private void Back_Btn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

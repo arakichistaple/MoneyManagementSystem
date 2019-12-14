@@ -182,22 +182,25 @@
             // 
             // PayOff_Btn
             // 
-            this.PayOff_Btn.Location = new System.Drawing.Point(1244, 137);
+            this.PayOff_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.PayOff_Btn.Font = new System.Drawing.Font("MS UI Gothic", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayOff_Btn.Location = new System.Drawing.Point(959, 206);
             this.PayOff_Btn.Name = "PayOff_Btn";
-            this.PayOff_Btn.Size = new System.Drawing.Size(116, 39);
+            this.PayOff_Btn.Size = new System.Drawing.Size(212, 161);
             this.PayOff_Btn.TabIndex = 10;
             this.PayOff_Btn.Text = "精算";
-            this.PayOff_Btn.UseVisualStyleBackColor = true;
+            this.PayOff_Btn.UseVisualStyleBackColor = false;
             this.PayOff_Btn.Click += new System.EventHandler(this.PayOff_Btn_Click);
             // 
             // Back_Button
             // 
-            this.Back_Button.Location = new System.Drawing.Point(1359, 733);
+            this.Back_Button.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Back_Button.Location = new System.Drawing.Point(959, 648);
             this.Back_Button.Name = "Back_Button";
-            this.Back_Button.Size = new System.Drawing.Size(116, 39);
+            this.Back_Button.Size = new System.Drawing.Size(212, 68);
             this.Back_Button.TabIndex = 11;
             this.Back_Button.Text = "戻る";
-            this.Back_Button.UseVisualStyleBackColor = true;
+            this.Back_Button.UseVisualStyleBackColor = false;
             this.Back_Button.Click += new System.EventHandler(this.Back_Button_Click);
             // 
             // Payer_LB
@@ -293,7 +296,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1487, 784);
+            this.ClientSize = new System.Drawing.Size(1183, 728);
             this.Controls.Add(this.prevMonthBtn);
             this.Controls.Add(this.nextMonthBtn);
             this.Controls.Add(this.yearMonth_TB);

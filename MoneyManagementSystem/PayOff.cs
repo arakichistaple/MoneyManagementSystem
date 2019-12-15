@@ -70,11 +70,11 @@ namespace MoneyManagementSystem
                 con.Open();
 
                 string sqlstr = "";
-                sqlstr = sqlstr + "SELECT UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share, PayOff ";
+                sqlstr = sqlstr + "SELECT MD.Id, UserName, MJR.ItemName AS MjrItemName, ISNULL(MDM.ItemName, '') AS MdmItemName, ISNULL(Detail, '') AS Detail, Date, Amounts, Share, PayOff ";
                 sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
-                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND MD.Share = CONVERT(bit, 'true') AND ";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND MD.Share = CONVERT(bit, 'true') AND MD.PayOff = CONVERT(bit, 'false') AND ";
                 sqlstr = sqlstr + "( MD.Date BETWEEN @begin_of_month AND @end_of_month)";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
                 cmd.Parameters.Add(new SqlParameter("@user", personId));
@@ -86,17 +86,18 @@ namespace MoneyManagementSystem
 
                 while (sdr.Read() == true)
                 {
+                    int id = (int)sdr["Id"];
                     string user = (string)sdr["UserName"];
                     string major_name = (string)sdr["MjrItemName"];
                     string medium_name = (string)sdr["MdmItemName"];
                     string detail = (string)sdr["Detail"];
                     DateTime date = (DateTime)sdr["Date"];
-                    int amount = (int)sdr["Amounts"];
+                    int amount = (int)sdr["Amounts"] / 2;
                     bool share = (bool)sdr["Share"];
                     bool pay_off = (bool)sdr["PayOff"];
 
 
-                    addData(personId, medium_name, detail, date, amount, pay_off);
+                    addData(id, personId, medium_name, detail, date, amount, pay_off);
 
                 }
                 con.Close();
@@ -107,7 +108,7 @@ namespace MoneyManagementSystem
             }
         }
 
-        private void addData(int personId, string item_name, string detail, DateTime date, int amount, bool pay_off)
+        private void addData(int id, int personId, string item_name, string detail, DateTime date, int amount, bool pay_off)
         {
             string pay_off_str = "";
 
@@ -123,10 +124,10 @@ namespace MoneyManagementSystem
             switch(personId)
             {
                 case 1:
-                    dataGridView1.Rows.Add(item_name, detail, date.ToString("yyyy年MM月dd日"), amount, pay_off_str);
+                    dataGridView1.Rows.Add(id, item_name, detail, date.ToString("yyyy年MM月dd日"), amount, pay_off_str);
                     break;
                 case 2:
-                    dataGridView2.Rows.Add(item_name, detail, date.ToString("yyyy年MM月dd日"), amount, pay_off_str);
+                    dataGridView2.Rows.Add(id, item_name, detail, date.ToString("yyyy年MM月dd日"), amount, pay_off_str);
                     break;
                 default:
                     MessageBox.Show("グリッドの更新に失敗しました", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -192,7 +193,7 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "FROM (([dbo].[MoneyDetail] AS MD INNER JOIN [dbo].[User] AS U ON MD.UserId = U.UserId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MajorItem] AS MJR ON MD.MajorItemId = MJR.ItemId) ";
                 sqlstr = sqlstr + "LEFT JOIN [dbo].[MediumItem] AS MDM ON MD.MediumItemId = MDM.ItemId ";
-                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND MD.Share = CONVERT(bit, 'true') AND ";
+                sqlstr = sqlstr + "WHERE MD.UserId = @user AND MJR.PaymentId = @paymentId AND MD.Share = CONVERT(bit, 'true') AND MD.PayOff = CONVERT(bit, 'false') AND ";
                 sqlstr = sqlstr + "( MD.Date BETWEEN @begin_of_month AND @end_of_month)";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
                 cmd.Parameters.Add(new SqlParameter("@user", personId));
@@ -214,7 +215,7 @@ namespace MoneyManagementSystem
                     bool pay_off = (bool)sdr["PayOff"];
 
 
-                    total_cost += amount;
+                    total_cost += amount / 2;
                     //string user = (string)sdr["model"];
 
                 }
@@ -269,13 +270,242 @@ namespace MoneyManagementSystem
 
         private void PayOff_Btn_Click(object sender, EventArgs e)
         {
-
-            updatePayOffToFalse();
+            InputPerson1ItemsToPerson2();
+            updatePerson1ItemsAmountToHalf();
+            InputPerson2ItemsToPerson1();
+            updatePerson2ItemsAmountToHalf();
+            updatePayOffToTrue();
             updateForm();
 
         }
 
-        private void updatePayOffToFalse()
+        private void InputPerson1ItemsToPerson2()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "INSERT INTO [dbo].[MoneyDetail] ";
+                sqlstr = sqlstr + "VALUES(@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off) ";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+
+                for(int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    int major_item_id = 0;
+                    int medium_item_id = 0;
+
+                    getPerson1MajorAndMediumItemId(i, 1, ref major_item_id, ref medium_item_id);
+
+                    cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
+                    cmd.Parameters["@user_id"].Value = Common.Display_Status_LIST.DISP_MIKI;
+                    cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
+                    cmd.Parameters["@major_item_id"].Value = major_item_id;
+                    cmd.Parameters.Add(new SqlParameter("@medium_item_id", SqlDbType.Int));
+                    cmd.Parameters["@medium_item_id"].Value = medium_item_id;
+                    cmd.Parameters.Add(new SqlParameter("@detail", SqlDbType.NVarChar));
+                    cmd.Parameters["@detail"].Value = (string)dataGridView1.Rows[i].Cells[2].Value;
+                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+                    cmd.Parameters["@date"].Value = getPerson1DataGridDate(i,3);
+                    cmd.Parameters.Add(new SqlParameter("@amounts", SqlDbType.Int));
+                    cmd.Parameters["@amounts"].Value = (int)dataGridView1.Rows[i].Cells[4].Value;
+                    cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
+                    cmd.Parameters["@share"].Value = true;
+
+                    cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
+                    cmd.Parameters["@pay_off"].Value = true;
+                    cmd.ExecuteNonQuery();
+                }
+
+                
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void getPerson1MajorAndMediumItemId(int row, int cell, ref int major_id, ref int medium_id)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT ItemId, MajorItemId ";
+                sqlstr = sqlstr + "From [dbo].[MediumItem] ";
+                sqlstr = sqlstr + "Where ItemName = @item_name";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@item_name", (string)dataGridView1.Rows[row].Cells[cell].Value));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                while (sdr.Read() == true)
+                {
+                    major_id = (int)sdr["MajorItemId"];
+                    medium_id = (int)sdr["ItemId"];
+                }
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private DateTime getPerson1DataGridDate(int row, int cell)
+        {
+            string date = (string)dataGridView1.Rows[row].Cells[cell].Value;
+            string format = "yyyy年MM月dd日";
+
+            return DateTime.ParseExact(date, format, null);
+        }
+
+        private void updatePerson1ItemsAmountToHalf()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "UPDATE [dbo].[MoneyDetail] ";
+                sqlstr = sqlstr + "SET Amounts = @amount ";
+                sqlstr = sqlstr + "WHERE Id = @id";
+
+                for (int i = 0; i < (int)dataGridView1.Rows.Count; i++)
+                {
+                    SqlCommand cmd = new SqlCommand(sqlstr, con);
+                    cmd.Parameters.Add(new SqlParameter("@id", dataGridView1.Rows[i].Cells[0].Value));
+                    cmd.Parameters.Add(new SqlParameter("@amount", (int)dataGridView1.Rows[i].Cells[4].Value));
+
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void InputPerson2ItemsToPerson1()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "INSERT INTO [dbo].[MoneyDetail] ";
+                sqlstr = sqlstr + "VALUES(@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off) ";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+
+                for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                {
+                    int major_item_id = 0;
+                    int medium_item_id = 0;
+
+                    getPerson2MajorAndMediumItemId(i, 1, ref major_item_id, ref medium_item_id);
+
+                    cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
+                    cmd.Parameters["@user_id"].Value = Common.Display_Status_LIST.DISP_KEISUKE;
+                    cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
+                    cmd.Parameters["@major_item_id"].Value = major_item_id;
+                    cmd.Parameters.Add(new SqlParameter("@medium_item_id", SqlDbType.Int));
+                    cmd.Parameters["@medium_item_id"].Value = medium_item_id;
+                    cmd.Parameters.Add(new SqlParameter("@detail", SqlDbType.NVarChar));
+                    cmd.Parameters["@detail"].Value = (string)dataGridView2.Rows[i].Cells[2].Value;
+                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+                    cmd.Parameters["@date"].Value = getPerson2DataGridDate(i, 3);
+                    cmd.Parameters.Add(new SqlParameter("@amounts", SqlDbType.Int));
+                    cmd.Parameters["@amounts"].Value = (int)dataGridView2.Rows[i].Cells[4].Value;
+                    cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
+                    cmd.Parameters["@share"].Value = true;
+
+                    cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
+                    cmd.Parameters["@pay_off"].Value = true;
+                    cmd.ExecuteNonQuery();
+                }
+
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void getPerson2MajorAndMediumItemId(int row, int cell, ref int major_id, ref int medium_id)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT ItemId, MajorItemId ";
+                sqlstr = sqlstr + "From [dbo].[MediumItem] ";
+                sqlstr = sqlstr + "Where ItemName = @item_name";
+                SqlCommand cmd = new SqlCommand(sqlstr, con);
+                cmd.Parameters.Add(new SqlParameter("@item_name", (string)dataGridView2.Rows[row].Cells[cell].Value));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                while (sdr.Read() == true)
+                {
+                    major_id = (int)sdr["MajorItemId"];
+                    medium_id = (int)sdr["ItemId"];
+                }
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private DateTime getPerson2DataGridDate(int row, int cell)
+        {
+            string date = (string)dataGridView2.Rows[row].Cells[cell].Value;
+            string format = "yyyy年MM月dd日";
+
+            return DateTime.ParseExact(date, format, null);
+        }
+
+        private void updatePerson2ItemsAmountToHalf()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "UPDATE [dbo].[MoneyDetail] ";
+                sqlstr = sqlstr + "SET Amounts = @amount ";
+                sqlstr = sqlstr + "WHERE Id = @id";
+
+                for (int i = 0; i < (int)dataGridView2.Rows.Count; i++)
+                {
+                    SqlCommand cmd = new SqlCommand(sqlstr, con);
+                    cmd.Parameters.Add(new SqlParameter("@id", dataGridView2.Rows[i].Cells[0].Value));
+                    cmd.Parameters.Add(new SqlParameter("@amount", (int)dataGridView2.Rows[i].Cells[4].Value));
+
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void updatePayOffToTrue()
         {
             DateTime nowYearMonth = getNowYearMonth();
 
@@ -286,7 +516,7 @@ namespace MoneyManagementSystem
 
                 string sqlstr = "";
                 sqlstr = sqlstr + "UPDATE [dbo].[MoneyDetail] ";
-                sqlstr = sqlstr + "SET Share = CONVERT(bit, 'false'), PayOff = CONVERT(bit, 'true') ";
+                sqlstr = sqlstr + "SET PayOff = CONVERT(bit, 'true') ";
                 sqlstr = sqlstr + "WHERE [dbo].[MoneyDetail].Share = CONVERT(bit, 'true') AND ";
                 sqlstr = sqlstr + "( [dbo].[MoneyDetail].Date BETWEEN @begin_of_month AND @end_of_month)";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);

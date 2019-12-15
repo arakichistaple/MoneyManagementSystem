@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountBook));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Back_Btn = new System.Windows.Forms.Button();
+            this.Input_Btn = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,8 +58,6 @@
             this.nextMonthBtn = new System.Windows.Forms.Button();
             this.prevMonthBtn = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.Input_Btn = new System.Windows.Forms.Button();
-            this.Back_Btn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -74,6 +74,30 @@
             this.panel1.Size = new System.Drawing.Size(1501, 140);
             this.panel1.TabIndex = 1;
             // 
+            // Back_Btn
+            // 
+            this.Back_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.Back_Btn.Font = new System.Drawing.Font("MS UI Gothic", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Back_Btn.Location = new System.Drawing.Point(1340, 13);
+            this.Back_Btn.Name = "Back_Btn";
+            this.Back_Btn.Size = new System.Drawing.Size(158, 111);
+            this.Back_Btn.TabIndex = 3;
+            this.Back_Btn.Text = "ホームへ\r\n戻る";
+            this.Back_Btn.UseVisualStyleBackColor = false;
+            this.Back_Btn.Click += new System.EventHandler(this.Back_Btn_Click);
+            // 
+            // Input_Btn
+            // 
+            this.Input_Btn.BackColor = System.Drawing.Color.SpringGreen;
+            this.Input_Btn.Font = new System.Drawing.Font("MS UI Gothic", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Input_Btn.Location = new System.Drawing.Point(14, 13);
+            this.Input_Btn.Name = "Input_Btn";
+            this.Input_Btn.Size = new System.Drawing.Size(1320, 111);
+            this.Input_Btn.TabIndex = 2;
+            this.Input_Btn.Text = "入力画面を表示";
+            this.Input_Btn.UseVisualStyleBackColor = false;
+            this.Input_Btn.Click += new System.EventHandler(this.Input_Btn_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -88,6 +112,7 @@
             this.Column1});
             this.dataGridView1.Location = new System.Drawing.Point(702, 209);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(811, 404);
             this.dataGridView1.TabIndex = 2;
@@ -96,31 +121,37 @@
             // 
             this.Column2.HeaderText = "項目";
             this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             // 
             // Column4
             // 
             this.Column4.HeaderText = "内容";
             this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
             // 
             // Column5
             // 
             this.Column5.HeaderText = "日付";
             this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
             // 
             // Column6
             // 
             this.Column6.HeaderText = "金額";
             this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
             // 
             // Column7
             // 
             this.Column7.HeaderText = "共有";
             this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
             // 
             // Column1
             // 
             this.Column1.HeaderText = "精算状況";
             this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
             // Income_Button
             // 
@@ -273,44 +304,20 @@
             // 
             // chart1
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(12, 209);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(684, 404);
             this.chart1.TabIndex = 9;
             this.chart1.Text = "chart1";
-            // 
-            // Input_Btn
-            // 
-            this.Input_Btn.BackColor = System.Drawing.Color.SpringGreen;
-            this.Input_Btn.Font = new System.Drawing.Font("MS UI Gothic", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Input_Btn.Location = new System.Drawing.Point(14, 13);
-            this.Input_Btn.Name = "Input_Btn";
-            this.Input_Btn.Size = new System.Drawing.Size(1320, 111);
-            this.Input_Btn.TabIndex = 2;
-            this.Input_Btn.Text = "入力画面を表示";
-            this.Input_Btn.UseVisualStyleBackColor = false;
-            this.Input_Btn.Click += new System.EventHandler(this.Input_Btn_Click);
-            // 
-            // Back_Btn
-            // 
-            this.Back_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.Back_Btn.Font = new System.Drawing.Font("MS UI Gothic", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Back_Btn.Location = new System.Drawing.Point(1340, 13);
-            this.Back_Btn.Name = "Back_Btn";
-            this.Back_Btn.Size = new System.Drawing.Size(158, 111);
-            this.Back_Btn.TabIndex = 3;
-            this.Back_Btn.Text = "ホームへ\r\n戻る";
-            this.Back_Btn.UseVisualStyleBackColor = false;
-            this.Back_Btn.Click += new System.EventHandler(this.Back_Btn_Click);
             // 
             // AccountBook
             // 

@@ -121,7 +121,25 @@
   <data name="LeftArrow(mini)1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LeftArrow(mini).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bg_bu_l" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_bu_l.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="aqua_btn_21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\aqua_btn_21.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_bu_g" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_bu_g.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="RightArrow(mini)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RightArrow(mini).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_bu_v" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_bu_v.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_bu_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_bu_r.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BankImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BankImg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

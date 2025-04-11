@@ -8,12 +8,19 @@ namespace MoneyManagementSystem
 {
     class Common
     {
-        public string CON_STR = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\aceca\Documents\Visual Studio 2015\Projects\MoneyManagementSystem\MoneyManagementSystem\AccountBookDB.mdf;Integrated Security=True";
+        public string CON_STR = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mining-Base\source\repos\MoneyManagementSystem\MoneyManagementSystem\AccountBookDB.mdf;Integrated Security=True";
+        public string database_path = @"C:\Users\Mining-Base\source\repos\MoneyManagementSystem\MoneyManagementSystem\AccountBookDB.mdf";
         public static int payment_status = 0;
         public static int display_status = 0;
 
         public static string person1 = "けいすけ";
         public static string person2 = "みき";
+        public static string person3 = "共有";
+
+        internal static string GetYearStr(int year)
+        {
+            return year.ToString() + "年";
+        }
 
         public enum Amount_Status_List
         {
@@ -21,17 +28,30 @@ namespace MoneyManagementSystem
             INCOME = 2
         }
 
+        public enum Major_Item_List
+        {
+           OTHERS = 17,
+        }
+
+        public enum Medium_Item_List
+        {
+            INVEST_DOMESTIC = 111,
+            INVEST_FOREIGN_ETF = 112,
+            NISA_KEISUKE = 105,
+            NISA_MIKI = 117,
+            JUNIOR_NISA = 113,
+        }
+
         public enum Display_Status_LIST
         {
             DISP_KEISUKE = 1,
-            DISP_MIKI = 2
+            DISP_MIKI = 2,
+            DISP_COOP = 3
         }
 
-        public static string getTodaysYearMonth()
+        public static string GetYearMonthStr(DateTime date)
         {
-            DateTime dt = DateTime.Now;
-
-            string result = dt.ToString("yyyy年MM月");
+            string result = date.ToString("yyyy年MM月");
 
             return result;
         }

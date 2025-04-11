@@ -7,25 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows;
 using System.Data.SqlClient;
 
 namespace MoneyManagementSystem
 {
-    public partial class MajorItemSelect : Form
+    public partial class ChangeMajorItem : Form
     {
         private Button[] buttons;
         Common com = new Common();
         public int payment_status = 0;
 
-
-        public MajorItemSelect()
+        public ChangeMajorItem()
         {
             InitializeComponent();
         }
 
-
-        private void MajorItemSelect_Load(object sender, EventArgs e)
+        private void ChangeMajorItem_Load(object sender, EventArgs e)
         {
             int button_max = 100;
             payment_status = Common.payment_status;
@@ -76,8 +73,6 @@ namespace MoneyManagementSystem
             {
                 MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
         private void btnclick(object sender, System.EventArgs e)
@@ -87,52 +82,52 @@ namespace MoneyManagementSystem
             string item_name = btn.Text;
             int item_id = 0;
 
-            
-                try
+
+            try
+            {
+                SqlConnection con = new SqlConnection(com.CON_STR);
+                con.Open();
+
+                string sqlstr = "";
+                sqlstr = sqlstr + "SELECT ItemId FROM MajorItem WHERE ItemName = @item_name";
+                SqlCommand cmd = new SqlCommand(sqlstr, con); ;
+                cmd.Parameters.Add(new SqlParameter("@item_name", item_name));
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+
+                if (sdr.HasRows == true)
                 {
-                    SqlConnection con = new SqlConnection(com.CON_STR);
-                    con.Open();
-
-                    string sqlstr = "";
-                    sqlstr = sqlstr + "SELECT ItemId FROM MajorItem WHERE ItemName = @item_name";
-                    SqlCommand cmd = new SqlCommand(sqlstr, con); ;
-                    cmd.Parameters.Add(new SqlParameter("@item_name", item_name));
-
-                    SqlDataReader sdr = cmd.ExecuteReader();
-
-                    if (sdr.HasRows == true)
-                    {
-                        sdr.Read();
-                        item_id = (int)sdr["ItemId"];
-                    }
-
-                    else
-                    {
-                        MessageBox.Show("選択された大項目と関連する中項目が存在しません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-                    con.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
+                    sdr.Read();
+                    item_id = (int)sdr["ItemId"];
                 }
 
-            Input.major_item_id = item_id;
+                else
+                {
+                    MessageBox.Show("選択された大項目と関連する中項目が存在しません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+            }
+
+            ChangeData.major_item_id = item_id;
 
             if (Common.payment_status == (int)Common.Amount_Status_List.SPENDING)
             {
-                MediumItemSelect MediumItemSelectForm = new MediumItemSelect();
-                
+                ChangeMediumItem ChangeMediumItemSelectForm = new ChangeMediumItem();
+
                 this.Hide();
-                MediumItemSelectForm.ShowDialog();
+                ChangeMediumItemSelectForm.ShowDialog();
             }
-            else if(Common.payment_status == (int)Common.Amount_Status_List.INCOME || item_id == 29)
+            else if (Common.payment_status == (int)Common.Amount_Status_List.INCOME || item_id == 29)
             {
-                Input.medium_item_id = 0;
-                Input.item_name = item_name;
+                ChangeData.medium_item_id = 0;
+                ChangeData.item_name = item_name;
             }
             else
             {
@@ -141,5 +136,6 @@ namespace MoneyManagementSystem
 
             this.Close();
         }
+        
     }
 }

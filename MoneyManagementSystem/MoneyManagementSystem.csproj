@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -47,7 +47,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>87361075fcdcf2438f7a77c2085b842e_xxo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -62,6 +69,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeData.Designer.cs">
+      <DependentUpon>ChangeData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeMajorItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeMajorItem.Designer.cs">
+      <DependentUpon>ChangeMajorItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeMediumItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeMediumItem.Designer.cs">
+      <DependentUpon>ChangeMediumItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="CircularButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -71,6 +96,12 @@
     </Compile>
     <Compile Include="Input.Designer.cs">
       <DependentUpon>Input.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
     <Compile Include="MajorItemSelect.cs">
       <SubType>Form</SubType>
@@ -109,8 +140,32 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Summary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Summary.Designer.cs">
+      <DependentUpon>Summary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SummaryYear.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SummaryYear.Designer.cs">
+      <DependentUpon>SummaryYear.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ChangeData.resx">
+      <DependentUpon>ChangeData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeMajorItem.resx">
+      <DependentUpon>ChangeMajorItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeMediumItem.resx">
+      <DependentUpon>ChangeMediumItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Input.resx">
       <DependentUpon>Input.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MajorItemSelect.resx">
       <DependentUpon>MajorItemSelect.cs</DependentUpon>
@@ -132,7 +187,14 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Summary.resx">
+      <DependentUpon>Summary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SummaryYear.resx">
+      <DependentUpon>SummaryYear.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,6 +209,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="87361075fcdcf2438f7a77c2085b842e_xxo.ico" />
     <Content Include="AccountBookDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -154,6 +217,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>AccountBookDB.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\BankImg.png" />
+    <None Include="Resources\aqua_btn_21.gif" />
+    <None Include="Resources\bg_bu_g.gif" />
+    <None Include="Resources\bg_bu_l.gif" />
+    <None Include="Resources\bg_bu_r.gif" />
+    <None Include="Resources\bg_bu_v.gif" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -167,9 +236,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,10 +17,46 @@ namespace MoneyManagementSystem
         public static int major_item_id = 0;
         public static int medium_item_id = 0;
         public static string item_name = "";
+        public static bool is_closed = false;
+        public static bool is_saved = false;
+        public static Point displayPos;
 
         public Input()
         {
+            this.StartPosition = FormStartPosition.Manual;
+            this.DesktopLocation = new Point(displayPos.X + 15, displayPos.Y + 70);
             InitializeComponent();
+            setButtonColor();
+            SetCheckBoxVisibility(false);
+            Input.is_closed = false;
+            Input.is_saved = false;
+        }
+
+        /// <summary>
+        /// チェックボックスの表示制御関数
+        /// </summary>
+        /// <param name="val"></param>
+        private void SetCheckBoxVisibility(bool val)
+        {
+            Shared_CB.Visible = val;
+            chkKei.Visible = val;
+            chkMiki.Visible = val;
+        }
+
+        private void setButtonColor()
+        {
+            this.SuspendLayout();
+            if (Common.payment_status == (int)Common.Amount_Status_List.INCOME)
+            {
+                Income_Button.BackColor = Color.LightSeaGreen;
+                Spending_button.BackColor = Color.DarkGray;
+            }
+            else if(Common.payment_status == ((int)Common.Amount_Status_List.SPENDING))
+            {
+                Income_Button.BackColor = Color.DarkGray;
+                Spending_button.BackColor = Color.LightSeaGreen;
+            }
+            this.ResumeLayout();
         }
 
         private void Item_Select_Button_Click(object sender, EventArgs e)
@@ -35,21 +71,25 @@ namespace MoneyManagementSystem
         private void Save_Btn_Click(object sender, EventArgs e)
         {
             saveContent();
+            Input.is_saved = true;
+            this.Close();
         }
 
         private void Spending_button_Click(object sender, EventArgs e)
         {
             paymentStatus((int)Common.Amount_Status_List.SPENDING);
-            Shared_CB.Visible = true;
+            SetCheckBoxVisibility(false);
             itemTextClear();
+            setButtonColor();
         }
 
         private void Income_Button_Click(object sender, EventArgs e)
         {
             paymentStatus((int)Common.Amount_Status_List.INCOME);
             Shared_CB.Checked = false;
-            Shared_CB.Visible = false;
             itemTextClear();
+            setButtonColor();
+            SetCheckBoxVisibility(false);
         }
 
         private void paymentStatus(int status)
@@ -70,9 +110,8 @@ namespace MoneyManagementSystem
                 con.Open();
 
                 string sqlstr = "";
-                sqlstr = sqlstr + "INSERT INTO [dbo].[MoneyDetail] VALUES (@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off)";
+                sqlstr = sqlstr + "INSERT INTO [dbo].[MoneyDetail] VALUES (@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off, @living_expenses )";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
-                int i = getUserId();
                 cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
                 cmd.Parameters["@user_id"].Value = getUserId();
                 cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
@@ -91,6 +130,9 @@ namespace MoneyManagementSystem
                 cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
                 cmd.Parameters["@pay_off"].Value = false;
 
+                cmd.Parameters.Add(new SqlParameter("@living_expenses", SqlDbType.Bit));
+                cmd.Parameters["@living_expenses"].Value = getLivingExpenses();
+
 
                 cmd.ExecuteNonQuery();
 
@@ -101,12 +143,28 @@ namespace MoneyManagementSystem
                 MessageBox.Show(e.ToString(), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            this.Close();
+        }
+
+        private bool getLivingExpenses()
+        {
+            return chkLivingExpenses.Checked;
         }
 
         private int getUserId()
         {
-            return Common.display_status;
+            if(chkKei.Checked)
+            {
+                return (int)Common.Display_Status_LIST.DISP_KEISUKE;
+            }
+            else if(chkMiki.Checked)
+            {
+                return (int)Common.Display_Status_LIST.DISP_MIKI;
+            }
+            else
+            {
+                return (int)Common.Display_Status_LIST.DISP_COOP;
+            }
+
         }
 
         private int getMajorItemId()
@@ -146,6 +204,33 @@ namespace MoneyManagementSystem
             {
                 return false;
             }
+        }
+
+        private void Input_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Input.is_saved) is_closed = false;
+            else                is_closed = true;
+        }
+
+        private void chkKei_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkMiki.Checked)
+            {
+                chkMiki.Checked = false;
+            }
+        }
+
+        private void chkMiki_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkKei.Checked)
+            {
+                chkKei.Checked = false;
+            }
+        }
+
+        private void Amount_TB_Click(object sender, EventArgs e)
+        {
+            Amount_TB.Text = "";
         }
     }
 }

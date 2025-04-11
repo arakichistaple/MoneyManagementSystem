@@ -22,7 +22,7 @@ namespace MoneyManagementSystem
 
         private void PayOff_Load(object sender, EventArgs e)
         {
-            yearMonth_TB.Text = Common.getTodaysYearMonth();
+            yearMonth_TB.Text = Common.GetYearMonthStr(DateTime.Now);
             setPerson1(Common.person1);
             setPerson2(Common.person2);
             updateForm();
@@ -291,29 +291,28 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "VALUES(@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off) ";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
 
-                for(int i = 0; i < dataGridView1.Rows.Count; i++)
+                cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@medium_item_id", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@detail", SqlDbType.NVarChar));
+                cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+                cmd.Parameters.Add(new SqlParameter("@amounts", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
+                cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
+
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
                     int major_item_id = 0;
                     int medium_item_id = 0;
 
                     getPerson1MajorAndMediumItemId(i, 1, ref major_item_id, ref medium_item_id);
-
-                    cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
                     cmd.Parameters["@user_id"].Value = Common.Display_Status_LIST.DISP_MIKI;
-                    cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
                     cmd.Parameters["@major_item_id"].Value = major_item_id;
-                    cmd.Parameters.Add(new SqlParameter("@medium_item_id", SqlDbType.Int));
                     cmd.Parameters["@medium_item_id"].Value = medium_item_id;
-                    cmd.Parameters.Add(new SqlParameter("@detail", SqlDbType.NVarChar));
                     cmd.Parameters["@detail"].Value = (string)dataGridView1.Rows[i].Cells[2].Value;
-                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
                     cmd.Parameters["@date"].Value = getPerson1DataGridDate(i,3);
-                    cmd.Parameters.Add(new SqlParameter("@amounts", SqlDbType.Int));
                     cmd.Parameters["@amounts"].Value = (int)dataGridView1.Rows[i].Cells[4].Value;
-                    cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
                     cmd.Parameters["@share"].Value = true;
-
-                    cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
                     cmd.Parameters["@pay_off"].Value = true;
                     cmd.ExecuteNonQuery();
                 }
@@ -404,6 +403,15 @@ namespace MoneyManagementSystem
                 sqlstr = sqlstr + "VALUES(@user_id, @major_item_id, @medium_item_id, @detail, @date, @amounts, @share, @pay_off) ";
                 SqlCommand cmd = new SqlCommand(sqlstr, con);
 
+                cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@medium_item_id", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@detail", SqlDbType.NVarChar));
+                cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
+                cmd.Parameters.Add(new SqlParameter("@amounts", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
+                cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
+
                 for (int i = 0; i < dataGridView2.Rows.Count; i++)
                 {
                     int major_item_id = 0;
@@ -411,22 +419,13 @@ namespace MoneyManagementSystem
 
                     getPerson2MajorAndMediumItemId(i, 1, ref major_item_id, ref medium_item_id);
 
-                    cmd.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int));
                     cmd.Parameters["@user_id"].Value = Common.Display_Status_LIST.DISP_KEISUKE;
-                    cmd.Parameters.Add(new SqlParameter("@major_item_id", SqlDbType.Int));
                     cmd.Parameters["@major_item_id"].Value = major_item_id;
-                    cmd.Parameters.Add(new SqlParameter("@medium_item_id", SqlDbType.Int));
                     cmd.Parameters["@medium_item_id"].Value = medium_item_id;
-                    cmd.Parameters.Add(new SqlParameter("@detail", SqlDbType.NVarChar));
                     cmd.Parameters["@detail"].Value = (string)dataGridView2.Rows[i].Cells[2].Value;
-                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.Date));
                     cmd.Parameters["@date"].Value = getPerson2DataGridDate(i, 3);
-                    cmd.Parameters.Add(new SqlParameter("@amounts", SqlDbType.Int));
                     cmd.Parameters["@amounts"].Value = (int)dataGridView2.Rows[i].Cells[4].Value;
-                    cmd.Parameters.Add(new SqlParameter("@share", SqlDbType.Bit));
                     cmd.Parameters["@share"].Value = true;
-
-                    cmd.Parameters.Add(new SqlParameter("@pay_off", SqlDbType.Bit));
                     cmd.Parameters["@pay_off"].Value = true;
                     cmd.ExecuteNonQuery();
                 }
